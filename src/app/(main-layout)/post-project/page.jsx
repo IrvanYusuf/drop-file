@@ -13,13 +13,13 @@ import {
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { Iconify } from 'src/components/iconify';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { useHandleDropFile } from 'src/hooks/use-on-drop-file';
-import { Iconify } from 'src/components/iconify';
 
-export default function PostProjectSection() {
+export default function PostProject() {
   const [files, setFiles] = useState(null);
   const fileInputRef = useRef(null);
   const modelTypes = ['stl', 'glb'];
