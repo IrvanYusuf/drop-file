@@ -1,9 +1,15 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function DragAndDropPage() {
   const [files, setFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+
+  // Load files from localStorage when component mounts
+  useEffect(() => {
+    const storedFiles = JSON.parse(localStorage.getItem('uploadedFiles')) || [];
+    setFiles(storedFiles);
+  }, []);
 
   const handleDrop = (event) => {
     event.preventDefault();
@@ -22,10 +28,15 @@ export default function DragAndDropPage() {
 
       reader.onload = (e) => {
         const fileData = e.target.result;
-        localStorage.setItem(`uploadedFile-${droppedFile.name}`, fileData);
-        newFiles.push({ name: droppedFile.name, data: fileData });
+        const fileInfo = { name: droppedFile.name, data: fileData };
+        
+        // Save file info to localStorage
+        const updatedFiles = [...files, fileInfo];
+        localStorage.setItem('uploadedFiles', JSON.stringify(updatedFiles));
 
-        // Ensure state is updated after all files are processed
+        newFiles.push(fileInfo);
+
+        // Update state after processing all files
         if (newFiles.length === droppedFiles.length) {
           setFiles((prevFiles) => [...prevFiles, ...newFiles]);
         }
@@ -44,8 +55,13 @@ export default function DragAndDropPage() {
   };
 
   const removeFile = (fileName) => {
-    localStorage.removeItem(`uploadedFile-${fileName}`);
-    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+    const updatedFiles = files.filter((file) => file.name !== fileName);
+
+    // Update files in localStorage after removal
+    localStorage.setItem('uploadedFiles', JSON.stringify(updatedFiles));
+
+    // Update state to reflect removal
+    setFiles(updatedFiles);
   };
 
   return (
