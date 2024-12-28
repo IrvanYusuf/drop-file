@@ -4,17 +4,17 @@ import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
 import { Main, CompactContent } from './main';
-import { LayoutSection } from '../core/layout-section';
-import { HeaderSection } from '../core/header-section';
 import { usePathname } from 'src/routes/hooks/use-pathname';
 import { useEffect, useState } from 'react';
-import { Button, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { _notifications } from 'src/_mock';
 import { RouterLink } from 'src/routes/components';
 import Link from '@mui/material/Link';
 import { paths } from 'src/routes/paths';
 import { useAuthContext } from 'src/auth/hooks';
 import NavbarDekstop from 'src/components/organims/navbar-dekstop/NavbarDekstop';
+import { LayoutSection } from '../core/layout-section';
+import { HeaderSection } from '../core/header-section';
 import NavMobile from 'src/components/organims/navbar-mobile/NavbarMobile';
 // ----------------------------------------------------------------------
 // ----------------------------------------------------------------------

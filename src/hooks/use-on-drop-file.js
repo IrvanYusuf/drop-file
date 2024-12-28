@@ -1,7 +1,10 @@
 import { fileToBase64 } from 'src/utils/file-to-base64';
+import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
 import { useCallback } from 'react';
 
 export const useHandleDropFile = (modelTypes = [], setFiles, files, navigate = false) => {
+  const router = useRouter();
   const onDrop = useCallback(
     async (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
@@ -20,6 +23,11 @@ export const useHandleDropFile = (modelTypes = [], setFiles, files, navigate = f
         setFiles((prevFiles) => prevFiles && [...prevFiles, ...fileURLs]);
         const addFiles = [...files, ...fileURLs];
         localStorage.setItem('files', JSON.stringify(addFiles));
+
+        // redirect ke post project
+        if (navigate) {
+          router.replace(paths.postProject);
+        }
       }
     },
     [files]

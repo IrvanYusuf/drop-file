@@ -7,6 +7,7 @@ import { _notifications } from 'src/_mock';
 import { Iconify } from 'src/components/iconify';
 import { NotificationsDrawer } from 'src/layouts/components/notifications-drawer';
 import { _accountUser } from 'src/layouts/config-nav-account';
+import { AccountDrawerHomePage } from 'src/layouts/components/account-drawer-homepage/AccountDrawerHomePage';
 
 const NavbarDekstop = ({ user }) => {
   const theme = useTheme();
@@ -39,7 +40,6 @@ const NavbarDekstop = ({ user }) => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
-          //   color={'black'}
           sx={{ color: theme.palette.text.primary }}
         >
           How it Works
@@ -71,7 +71,7 @@ const NavbarDekstop = ({ user }) => {
         {user ? (
           <Box component={'span'}>
             <Box sx={{ marginRight: 2 }} component={'span'}>
-              <NotificationsDrawer data={_notifications} totalUnRead={5} />
+              <NotificationsDrawer data={_notifications} />
             </Box>
             <AccountDrawerHomePage data={_accountUser} />
           </Box>

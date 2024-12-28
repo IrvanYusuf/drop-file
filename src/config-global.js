@@ -9,7 +9,10 @@ export const CONFIG = {
   appVersion: packageJson.version,
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? '',
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
+  BASE_API_URL: process.env.NEXT_PUBLIC_BASE_API_URL,
+  BASE_API_URL_DEV: process.env.NEXT_PUBLIC_BASE_API_URL,
   isStaticExport: JSON.parse(`${process.env.BUILD_STATIC_EXPORT}`),
+  ACCESS_TOKEN_KEY: process.env['NEXT_PUBLIC_ACCESS_TOKEN_KEY'] || 'dentaloka',
   /**
    * Auth
    * @method jwt | amplify | firebase | supabase | auth0

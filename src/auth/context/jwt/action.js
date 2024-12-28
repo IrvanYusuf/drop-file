@@ -1,58 +1,13 @@
 'use client';
 
-import axios, { endpoints } from 'src/utils/axios';
-
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
+import { auth } from 'src/libs/firebase/config';
 import { setSession } from './utils';
-import { STORAGE_KEY } from './constant';
-
-/** **************************************
- * Sign in
- *************************************** */
-export const signInWithPassword = async ({ email, password }) => {
-  try {
-    const params = { email, password };
-
-    const res = await axios.post(endpoints.auth.signIn, params);
-
-    const { accessToken } = res.data;
-
-    if (!accessToken) {
-      throw new Error('Access token not found in response');
-    }
-
-    setSession(accessToken);
-  } catch (error) {
-    console.error('Error during sign in:', error);
-    throw error;
-  }
-};
-
-/** **************************************
- * Sign up
- *************************************** */
-export const signUp = async ({ email, password, firstName, lastName }) => {
-  const params = {
-    email,
-    password,
-    firstName,
-    lastName,
-  };
-
-  try {
-    const res = await axios.post(endpoints.auth.signUp, params);
-
-    const { accessToken } = res.data;
-
-    if (!accessToken) {
-      throw new Error('Access token not found in response');
-    }
-
-    sessionStorage.setItem(STORAGE_KEY, accessToken);
-  } catch (error) {
-    console.error('Error during sign up:', error);
-    throw error;
-  }
-};
 
 /** **************************************
  * Sign out
@@ -62,6 +17,51 @@ export const signOut = async () => {
     await setSession(null);
   } catch (error) {
     console.error('Error during sign out:', error);
+    throw error;
+  }
+};
+
+// testing menggunakan data dummy
+// Testing sign in with others role
+
+export const signInOrSignUpWithGoogle = async () => {
+  try {
+    const googleProvider = new GoogleAuthProvider();
+    const response = await signInWithPopup(auth, googleProvider);
+    if (response.user) {
+      // setSession(response.user.accessToken);
+      return response.user;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const signUpWithEmailPassword = async (email, password) => {
+  try {
+    console.log(email, password);
+    const response = await createUserWithEmailAndPassword(auth, email, password);
+
+    if (response.user) {
+      setSession(response.user.accessToken);
+      return response.user;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const signInWithEmailPassword = async (email, password) => {
+  try {
+    console.log(email, password);
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    console.log(response);
+
+    if (response.user) {
+      setSession(response.user.accessToken);
+      return response;
+    }
+  } catch (error) {
     throw error;
   }
 };

@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 
-import { useRouter, useSearchParams } from 'src/routes/hooks';
+import { useRouter } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
 
 import { SplashScreen } from 'src/components/loading-screen';
-
+import { paths } from 'src/routes/paths';
 import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
@@ -15,13 +15,9 @@ import { useAuthContext } from '../hooks';
 export function GuestGuard({ children }) {
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-
-  const { loading, authenticated } = useAuthContext();
+  const { loading, authenticated, user } = useAuthContext();
 
   const [isChecking, setIsChecking] = useState(true);
-
-  const returnTo = searchParams.get('returnTo') || CONFIG.auth.redirectPath;
 
   const checkPermissions = async () => {
     if (loading) {
@@ -29,8 +25,11 @@ export function GuestGuard({ children }) {
     }
 
     if (authenticated) {
-      router.replace(returnTo);
-      return;
+      if (user !== 'admin') {
+        router.replace(paths.postProject);
+      } else {
+        router.replace(paths.dashboard.root);
+      }
     }
 
     setIsChecking(false);
