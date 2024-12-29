@@ -154,7 +154,7 @@ export function DashboardLayout({ sx, children, header, data }) {
                 {/* -- Contacts popover -- */}
                 {/* <ContactsPopover data={_contacts} /> */}
                 {/* -- Settings button -- */}
-                <SettingsButton />
+                {/* <SettingsButton /> */}
                 {/* -- Account drawer -- */}
                 <AccountDrawer data={_account} />
               </Box>

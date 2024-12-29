@@ -6,6 +6,7 @@ export const signUpSchemaValidation = zod.object({
     .string()
     .min(1, { message: 'Email is required!' })
     .email({ message: 'Email must be a valid email address!' }),
+  phone: zod.string().min(1, { message: 'Phone is required!' }),
   password: zod
     .string()
     .min(1, { message: 'Password is required!' })

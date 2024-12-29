@@ -9,7 +9,7 @@ import { NotificationsDrawer } from 'src/layouts/components/notifications-drawer
 import { _accountUser } from 'src/layouts/config-nav-account';
 import { AccountDrawerHomePage } from 'src/layouts/components/account-drawer-homepage/AccountDrawerHomePage';
 
-const NavbarDekstop = ({ user }) => {
+const NavbarDekstop = ({ user,isMobile }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -23,7 +23,8 @@ const NavbarDekstop = ({ user }) => {
   const layoutQuery = 'sm';
 
   return (
-    <Box
+    <>
+    {!isMobile && <Box
       sx={{
         display: 'none',
         [theme.breakpoints.up(layoutQuery)]: {
@@ -103,7 +104,8 @@ const NavbarDekstop = ({ user }) => {
           </Box>
         )}
       </Box>
-    </Box>
+    </Box>}
+    </>
   );
 };
 

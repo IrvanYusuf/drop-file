@@ -6,9 +6,9 @@ export const endpoints = {
     create: '/api/v1/users',
   },
   auth: {
-    me: '/api/v1/users',
-    // signInWithEmail: '/api/v1/users',
     signInWithGoogle: '/api/v1/auth/sign-in-with-google',
+    signUpWithEmailPassword: '/api/v1/auth/sign-up-with-email-password',
+    signInWithEmailPassword: '/api/v1/auth/sign-in-with-email-password',
     signUp: '/api/auth/sign-up',
   },
   mail: {

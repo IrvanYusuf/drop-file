@@ -39,11 +39,10 @@ export const signInOrSignUpWithGoogle = async () => {
 
 export const signUpWithEmailPassword = async (email, password) => {
   try {
-    console.log(email, password);
     const response = await createUserWithEmailAndPassword(auth, email, password);
 
     if (response.user) {
-      setSession(response.user.accessToken);
+      // setSession(response.user.accessToken);
       return response.user;
     }
   } catch (error) {
@@ -53,13 +52,10 @@ export const signUpWithEmailPassword = async (email, password) => {
 
 export const signInWithEmailPassword = async (email, password) => {
   try {
-    console.log(email, password);
     const response = await signInWithEmailAndPassword(auth, email, password);
-    console.log(response);
 
     if (response.user) {
-      setSession(response.user.accessToken);
-      return response;
+      return response.user;
     }
   } catch (error) {
     throw error;

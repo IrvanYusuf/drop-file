@@ -88,8 +88,8 @@ export function MainLayout({ sx, children, header, content }) {
                   width={'100%'}
                   justifyContent={'end'}
                 >
-                  <NavbarDekstop user={user} />
-                  <NavMobile />
+                  <NavbarDekstop user={user} isMobile={isMobile} />
+                  <NavMobile isMobile={isMobile} />
                 </Box>
               ),
             }}

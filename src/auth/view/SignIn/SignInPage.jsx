@@ -1,7 +1,7 @@
 'use client';
 
 import { Alert, Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RouterLink } from 'src/routes/components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,17 +9,16 @@ import { signInSchemaValidation } from 'src/schema-validations/auth/signInSchema
 import { paths } from 'src/routes/paths';
 import { Form } from 'src/components/hook-form';
 import Link from '@mui/material/Link';
-import { useRouter } from 'src/routes/hooks';
 import { FormHead } from 'src/auth/components/form-head';
-import { signInWithEmailPassword } from 'src/auth/context/jwt';
+import { setSession, signInWithEmailPassword } from 'src/auth/context/jwt';
 import { useAuthContext } from 'src/auth/hooks';
 import FormOauth from '../FormOAuth/FormOAuth';
 import JwtSignInView from './jwt-sign-in-view';
-
+import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
+import { endpoints } from 'src/routes/endpoints';
+import { toast } from 'src/components/snackbar';
 export default function SignInPage({ formOAuthShow = true }) {
   const [errorMsg, setErrorMsg] = useState('');
-  const [isSubmittingTest, setIsSubmittingTest] = useState(false);
-  const router = useRouter();
 
   const { checkUserSession } = useAuthContext();
 
@@ -38,20 +37,38 @@ export default function SignInPage({ formOAuthShow = true }) {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
-    setIsSubmittingTest(true);
+  const { mutate: signInEmailPassword } = useMutation(
+    'POST',
+    endpoints.auth.signInWithEmailPassword
+  );
 
+  const onSubmit = handleSubmit(async (data) => {
     try {
       const result = await signInWithEmailPassword(data.email, data.password);
-      await checkUserSession?.();
-      if (result) {
-        router.replace(paths.home);
-      }
+      console.log(result);
+      const payload = {
+        user_id: result.uid,
+        email: data.email,
+        password: data.password,
+      };
+
+      signInEmailPassword(
+        { ...payload },
+        {
+          onSuccess: async (response) => {
+            toast.success('Signin User success!');
+            setSession(response.token);
+            await checkUserSession?.();
+            console.log(response);
+          },
+          onError: (response) => {
+            toast.error('Failed Add New User!');
+          },
+        }
+      );
     } catch (error) {
       console.error(error);
       setErrorMsg('Login failed'); // Or show error message if necessary
-    } finally {
-      setIsSubmittingTest(false);
     }
   });
 
@@ -71,7 +88,7 @@ export default function SignInPage({ formOAuthShow = true }) {
       )}
 
       <Form methods={methods} onSubmit={onSubmit}>
-        <JwtSignInView isSubmitting={isSubmittingTest} />
+        <JwtSignInView isSubmitting={isSubmitting} />
       </Form>
       {formOAuthShow && (
         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'end', marginTop: 2 }}>

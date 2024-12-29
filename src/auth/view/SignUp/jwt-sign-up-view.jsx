@@ -19,8 +19,10 @@ export default function JwtSignUpView({ isSubmitting }) {
         <Box display="flex" gap={{ xs: 3, sm: 2 }} flexDirection={{ xs: 'column', sm: 'row' }}>
           <Field.Text name="full_name" label="Full name" InputLabelProps={{ shrink: true }} />
         </Box>
-
-        <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
+        <Box display="flex" gap={{ xs: 3, sm: 2 }} flexDirection={{ xs: 'column', sm: 'row' }}>
+          <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
+          <Field.Text name="phone" label="Phone Number" InputLabelProps={{ shrink: true }} />
+        </Box>
 
         <Field.Text
           name="password"

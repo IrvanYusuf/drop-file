@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { CONFIG } from 'src/config-global';
-
 import { SplashScreen } from 'src/components/loading-screen';
 import { paths } from 'src/routes/paths';
 import { useAuthContext } from '../hooks';
@@ -25,8 +23,8 @@ export function GuestGuard({ children }) {
     }
 
     if (authenticated) {
-      if (user !== 'admin') {
-        router.replace(paths.postProject);
+      if (user.role !== 'ADMIN') {
+        router.replace(paths.home);
       } else {
         router.replace(paths.dashboard.root);
       }

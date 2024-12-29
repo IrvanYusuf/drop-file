@@ -31,11 +31,12 @@ const FormOauth = () => {
         fullname: result.displayName,
         email: result.email,
         phone: result.phoneNumber,
+        password: result.reloadUserInfo.passwordHash,
       };
       console.log(newData);
 
       signInWithGoogle(
-        { ...newData, password: result.reloadUserInfo.passwordHash },
+        { ...newData },
         {
           onSuccess: async (response) => {
             toast.success('Sign in User success!');

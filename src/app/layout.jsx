@@ -17,6 +17,8 @@ import { AuthProvider } from 'src/auth/context/jwt';
 import ReactQueryProvider from 'src/context/react-query-provider/ReactQueryProvider';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Snackbar } from 'src/components/snackbar';
+import { I18nProvider } from 'src/utils/i18n-provider';
+import { LocalizationProvider } from 'src/utils/localization-provider';
 
 // ----------------------------------------------------------------------
 
@@ -38,15 +40,15 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <InitColorSchemeScript
-          defaultMode={schemeConfig.defaultMode}
-          modeStorageKey={schemeConfig.modeStorageKey}
-        />
+      <ReactQueryProvider>
+        <SettingsProvider settings={defaultSettings}>
+          <body>
+            <InitColorSchemeScript
+              defaultMode={schemeConfig.defaultMode}
+              modeStorageKey={schemeConfig.modeStorageKey}
+            />
 
-        <ReactQueryProvider>
-          <AuthProvider>
-            <SettingsProvider settings={defaultSettings}>
+            <AuthProvider>
               <ThemeProvider>
                 <MotionLazy>
                   <Snackbar />
@@ -55,11 +57,11 @@ export default async function RootLayout({ children }) {
                   {children}
                 </MotionLazy>
               </ThemeProvider>
-            </SettingsProvider>
-          </AuthProvider>
-          <ReactQueryDevtools />
-        </ReactQueryProvider>
-      </body>
+            </AuthProvider>
+            <ReactQueryDevtools />
+          </body>
+        </SettingsProvider>
+      </ReactQueryProvider>
     </html>
   );
 }

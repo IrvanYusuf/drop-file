@@ -5,28 +5,28 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
 import Link from '@mui/material/Link';
 import { Alert, Box } from '@mui/material';
-import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
 import { FormHead } from 'src/auth/components/form-head';
 import { Form } from 'src/components/hook-form';
 import { signUpSchemaValidation } from 'src/schema-validations/auth/signUpSchemaValidation';
 import { useAuthContext } from 'src/auth/hooks';
-import { signUpWithEmailPassword } from 'src/auth/context/jwt';
+import { setSession, signUpWithEmailPassword } from 'src/auth/context/jwt';
 import FormOauth from '../FormOAuth/FormOAuth';
 import JwtSignUpView from './jwt-sign-up-view';
+import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
+import { endpoints } from 'src/routes/endpoints';
+import { toast } from 'src/components/snackbar';
 
-export default function SignUpPage() {
+export default function SignUpPage({ isAdminForm = false }) {
   const [errorMsg, setErrorMsg] = useState('');
   const { checkUserSession } = useAuthContext();
-
-  const router = useRouter();
 
   const defaultValues = {
     full_name: '',
     email: '',
     password: '',
+    phone: '',
   };
 
   const methods = useForm({
@@ -34,7 +34,10 @@ export default function SignUpPage() {
     defaultValues,
   });
 
-  const { mutate: registerUser, isLoading } = useMutation('POST', '/api/v1/auth/register');
+  const { mutate: signUpEmailPassword } = useMutation(
+    'POST',
+    endpoints.auth.signUpWithEmailPassword
+  );
 
   const {
     handleSubmit,
@@ -45,14 +48,32 @@ export default function SignUpPage() {
     setErrorMsg('');
     try {
       const result = await signUpWithEmailPassword(data.email, data.password);
-
-      await checkUserSession?.();
-
-      if (result) {
-        router.replace(paths.home);
-      }
+      const newData = {
+        user_id: result.uid,
+        fullname: data.full_name,
+        email: result.email,
+        phone: data.phone,
+        password: data.password,
+        isAdminForm,
+      };
+      console.log(result);
+      signUpEmailPassword(
+        { ...newData },
+        {
+          onSuccess: async (response) => {
+            toast.success('Sign up User success!');
+            setSession(response.token);
+            await checkUserSession?.();
+            console.log(response);
+          },
+          onError: (response) => {
+            toast.error('Failed Add New User!');
+          },
+        }
+      );
     } catch (error) {
       console.error(error.code);
+      toast.error("Email already use");
       setErrorMsg(error.code === 'auth/email-already-in-use' ? 'Email already use' : error.message);
     }
   });
@@ -72,7 +93,7 @@ export default function SignUpPage() {
       )}
 
       <Form methods={methods} onSubmit={onSubmit}>
-        <JwtSignUpView isSubmitting={isLoading} />
+        <JwtSignUpView isSubmitting={isSubmitting} />
       </Form>
       <Box sx={{ display: 'flex', gap: 1, justifyContent: 'end', marginTop: 2 }}>
         {`Already have an account? `}

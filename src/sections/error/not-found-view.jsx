@@ -12,10 +12,24 @@ import { SimpleLayout } from 'src/layouts/simple';
 import { PageNotFoundIllustration } from 'src/assets/illustrations';
 
 import { varBounce, MotionContainer } from 'src/components/animate';
+import { useAuthContext } from 'src/auth/hooks';
+import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
 export function NotFoundView() {
+  const { user } = useAuthContext();
+  const router = useRouter();
+  const onClick = () => {
+    if (user) {
+      if (user.role !== 'ADMIN') {
+        router.replace(paths.home);
+      } else {
+        router.replace(paths.dashboard.root);
+      }
+    }
+  };
   return (
     <SimpleLayout content={{ compact: true }}>
       <Container component={MotionContainer}>
@@ -36,7 +50,7 @@ export function NotFoundView() {
           <PageNotFoundIllustration sx={{ my: { xs: 5, sm: 10 } }} />
         </m.div>
 
-        <Button component={RouterLink} href="/" size="large" variant="contained">
+        <Button onClick={onClick} size="large" variant="contained">
           Go to home
         </Button>
       </Container>

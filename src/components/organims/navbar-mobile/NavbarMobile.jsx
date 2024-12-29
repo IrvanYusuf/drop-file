@@ -13,11 +13,11 @@ import { Iconify } from 'src/components/iconify';
 import { MenuButton } from 'src/layouts/components/menu-button';
 import { navData } from 'src/layouts/config-nav-main';
 
-export default function NavMobile() {
+export default function NavMobile({ isMobile }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
   const [dropdownOpen, setDropdownOpen] = React.useState({});
+  console.log(isMobile);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -96,17 +96,21 @@ export default function NavMobile() {
   );
 
   return (
-    <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-      <MenuButton onClick={toggleDrawer(true)} />
-      <Drawer
-        open={open}
-        onClose={toggleDrawer(false)}
-        PaperProps={{
-          sx: { width: '75%' }, // Mengatur lebar drawer menjadi 75%
-        }}
-      >
-        {DrawerList}
-      </Drawer>
-    </Box>
+    <>
+      {isMobile && (
+        <Box>
+          <MenuButton onClick={toggleDrawer(true)} />
+          <Drawer
+            open={open}
+            onClose={toggleDrawer(false)}
+            PaperProps={{
+              sx: { width: '75%' }, // Mengatur lebar drawer menjadi 75%
+            }}
+          >
+            {DrawerList}
+          </Drawer>
+        </Box>
+      )}
+    </>
   );
 }

@@ -38,7 +38,7 @@ export function AuthGuard({ children, allowedRoles = [] }) {
     }
 
     // check role user
-    if (!allowedRoles.includes(user)) {
+    if (!allowedRoles.includes(user.role)) {
       router.replace(paths.notAuthenticated);
     }
 
