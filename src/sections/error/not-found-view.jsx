@@ -28,6 +28,8 @@ export function NotFoundView() {
       } else {
         router.replace(paths.dashboard.root);
       }
+    } else {
+      router.replace(paths.home);
     }
   };
   return (
