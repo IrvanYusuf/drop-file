@@ -20,8 +20,16 @@ export const useHandleDropFile = (modelTypes = [], setFiles, files, navigate = f
           })
         );
 
-        setFiles((prevFiles) => prevFiles && [...prevFiles, ...fileURLs]);
-        const addFiles = [...files, ...fileURLs];
+        console.log(files);
+        console.log('file url', fileURLs);
+        let addFiles;
+        if (files) {
+          setFiles((prevFiles) => prevFiles && [...prevFiles, ...fileURLs]);
+          addFiles = [...files, ...fileURLs];
+        } else {
+          setFiles(fileURLs);
+          addFiles = fileURLs;
+        }
         localStorage.setItem('files', JSON.stringify(addFiles));
 
         // redirect ke post project

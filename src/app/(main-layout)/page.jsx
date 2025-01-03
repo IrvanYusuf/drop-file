@@ -1,5 +1,5 @@
 import React from 'react';
-import HomePage from 'src/pages/home/HomePage';
+import HomePage from 'src/sections/home/HomePage';
 
 export const metadata = { title: `Dentaloka - Home Page` };
 

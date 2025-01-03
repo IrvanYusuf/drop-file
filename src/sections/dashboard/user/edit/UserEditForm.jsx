@@ -93,6 +93,7 @@ export default function UserEditForm({ currentUser }) {
             toast.success('Edit User success!');
             queryClient.invalidateQueries(['users']);
             reset();
+            router.push(paths.dashboard.user.root);
           },
           onError: (response) => {
             toast.error('Failed Add New User!');
@@ -100,7 +101,6 @@ export default function UserEditForm({ currentUser }) {
         }
       );
 
-      router.push(paths.dashboard.user.root);
     } catch (error) {
       console.error(error);
     }
