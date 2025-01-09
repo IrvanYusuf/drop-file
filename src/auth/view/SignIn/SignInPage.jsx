@@ -45,7 +45,6 @@ export default function SignInPage({ formOAuthShow = true }) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       const result = await signInWithEmailPassword(data.email, data.password);
-      console.log(result);
       const payload = {
         user_id: result.uid,
         email: data.email,
@@ -59,7 +58,6 @@ export default function SignInPage({ formOAuthShow = true }) {
             toast.success('Signin User success!');
             setSession(response.token);
             await checkUserSession?.();
-            console.log(response);
           },
           onError: (response) => {
             toast.error('Failed Add New User!');

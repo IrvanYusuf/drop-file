@@ -42,7 +42,7 @@ export function CompactContent({ sx, layoutQuery, children, ...other }) {
         maxWidth: 'var(--layout-simple-content-compact-width)',
         [theme.breakpoints.up(layoutQuery)]: {
           justifyContent: 'center',
-          p: theme.spacing(10, 0, 10, 0),
+          // p: theme.spacing(10, 0, 10, 0),
         },
         ...sx,
       }}

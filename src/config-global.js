@@ -12,7 +12,7 @@ export const CONFIG = {
   BASE_API_URL: process.env.NEXT_PUBLIC_BASE_API_URL,
   BASE_API_URL_DEV: process.env.NEXT_PUBLIC_BASE_API_URL,
   isStaticExport: JSON.parse(`${process.env.BUILD_STATIC_EXPORT}`),
-  ACCESS_TOKEN_KEY: process.env['NEXT_PUBLIC_ACCESS_TOKEN_KEY'] || 'dentaloka',
+  ACCESS_TOKEN_KEY: process.env['NEXT_PUBLIC_ACCESS_TOKEN_KEY'] || 'jwt_access_token',
   /**
    * Auth
    * @method jwt | amplify | firebase | supabase | auth0

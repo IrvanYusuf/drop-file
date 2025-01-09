@@ -34,7 +34,7 @@ export function NotFoundView() {
   };
   return (
     <SimpleLayout content={{ compact: true }}>
-      <Container component={MotionContainer}>
+      <Container component={MotionContainer} sx={{ pt: 0 }}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
             Sorry, page not found!

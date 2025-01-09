@@ -17,7 +17,6 @@ export default function NavMobile({ isMobile }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState({});
-  console.log(isMobile);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);

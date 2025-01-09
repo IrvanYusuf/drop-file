@@ -3,6 +3,7 @@ import { Box, Button, Container, Grid, Typography, useTheme } from '@mui/materia
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { useHandleDropFile } from 'src/hooks/use-on-drop-file';
 
 export function HeroSection() {
