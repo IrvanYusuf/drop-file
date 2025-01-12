@@ -60,7 +60,7 @@ export default function SignInPage({ formOAuthShow = true }) {
             await checkUserSession?.();
           },
           onError: (response) => {
-            toast.error('Failed Add New User!');
+            toast.error('Failed Login!');
           },
         }
       );
