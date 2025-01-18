@@ -18,9 +18,9 @@ export const paths = {
   minimalStore: 'https://mui.com/store/items/minimal-dashboard/',
   // Profile Client (Dokter)
   client: {
-    profile: '/client/profile',
-    transactions: '/client/transactions',
-    jobs: '/client/jobs',
+    profile: '/profile',
+    transactions: '/transactions',
+    projects: '/projects',
   },
   // AUTH
   auth: {

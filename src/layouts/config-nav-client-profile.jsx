@@ -39,31 +39,34 @@ const ICONS = {
 
 // ----------------------------------------------------------------------
 
-export const navData = [
+export const navDataClientProfile = [
+  /**
+   * Overview
+   */
   {
-    subheader: 'User Menu',
+    subheader: null,
     items: [
       { title: 'Profile', path: paths.client.profile },
       { title: 'Transactions', path: paths.client.transactions },
       { title: 'Projects', path: paths.client.projects },
     ],
   },
-  {
-    subheader: 'Management',
-    items: [
-      {
-        title: 'How it Works',
-        path: paths.dashboard.group.root,
-        // icon: ICONS.user,
-        children: [
-          { title: 'About us', path: paths.home },
-          { title: 'Contact us', path: paths.home },
-          { title: 'FAQs', path: paths.home },
-        ],
-      },
-      { title: 'Blog', path: paths.home },
-      { title: 'Become a designer', path: paths.home },
-      { title: 'Contact Us', path: paths.home },
-    ],
-  },
+  /**
+   * Management
+   */
+  // {
+  //   subheader: 'Management',
+  //   items: [
+  //     {
+  //       title: 'Group',
+  //       path: paths.dashboard.group.root,
+  //       icon: ICONS.user,
+  //       children: [
+  //         { title: 'Four', path: paths.dashboard.group.root },
+  //         { title: 'Five', path: paths.dashboard.group.five },
+  //         { title: 'Six', path: paths.dashboard.group.six },
+  //       ],
+  //     },
+  //   ],
+  // },
 ];

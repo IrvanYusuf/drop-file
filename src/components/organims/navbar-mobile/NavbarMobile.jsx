@@ -4,62 +4,32 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import { Collapse, Link, ListItemText, Stack, useTheme } from '@mui/material';
+import { Link, Stack, useTheme } from '@mui/material';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
-import { Iconify } from 'src/components/iconify';
 import { MenuButton } from 'src/layouts/components/menu-button';
 import { navData } from 'src/layouts/config-nav-main';
+import { NavSectionVertical } from 'src/components/nav-section';
+import { useAuthContext } from 'src/auth/hooks';
 
 export default function NavMobile({ isMobile }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [dropdownOpen, setDropdownOpen] = React.useState({});
+
+  const { user } = useAuthContext();
+
+  const navDataFilter = user
+    ? navData
+    : navData.filter((section) => section.subheader !== 'User Menu');
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  const handleDropdownToggle = (index) => () => {
-    setDropdownOpen((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
-    }));
-  };
-
   const DrawerList = (
     <Box role="presentation">
       <List>
-        {navData.map((item, index) => (
-          <React.Fragment key={index}>
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={item.children ? handleDropdownToggle(index) : null}>
-                <ListItemText primary={item.title} />
-                {item.children &&
-                  (dropdownOpen[index] ? (
-                    <Iconify width={22} icon="solar:alt-arrow-up-linear" />
-                  ) : (
-                    <Iconify width={22} icon="solar:alt-arrow-down-linear" />
-                  ))}
-              </ListItemButton>
-            </ListItem>
-            {item.children && (
-              <Collapse in={dropdownOpen[index]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {item.children.map((subItem, subIndex) => (
-                    <ListItem key={subIndex} disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemText primary={subItem.title} />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-            )}
-          </React.Fragment>
-        ))}
+        <NavSectionVertical data={navDataFilter} />
       </List>
       <Divider />
       <Stack
