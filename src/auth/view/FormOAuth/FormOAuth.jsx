@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
 import { toast } from 'src/components/snackbar';
 
-const FormOauth = () => {
+const FormOauth = ({ showOr = true }) => {
   const router = useRouter();
   const { checkUserSession } = useAuthContext();
 
@@ -31,7 +31,6 @@ const FormOauth = () => {
         fullname: result.displayName,
         email: result.email,
         phone: result.phoneNumber,
-        password: result.reloadUserInfo.passwordHash,
       };
       console.log(newData);
 
@@ -45,7 +44,7 @@ const FormOauth = () => {
             console.log(response);
           },
           onError: (response) => {
-            toast.error('Failed Add New User!');
+            toast.error('Failed Sign In!');
           },
         }
       );
@@ -67,18 +66,19 @@ const FormOauth = () => {
         <Image src={'/assets/images/google.webp'} alt="image login" width={35} height={35} />
         Google
       </Button>
-
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 3, marginTop: 2 }}
-      >
+      {showOr && (
         <Box
-          sx={{ width: '100%', height: '3px', backgroundColor: '#DFE3E8', borderRadius: '6px' }}
-        ></Box>
-        <Typography>Or</Typography>
-        <Box
-          sx={{ width: '100%', height: '3px', backgroundColor: '#DFE3E8', borderRadius: '6px' }}
-        ></Box>
-      </Box>
+          sx={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 3, marginTop: 2 }}
+        >
+          <Box
+            sx={{ width: '100%', height: '3px', backgroundColor: '#DFE3E8', borderRadius: '6px' }}
+          ></Box>
+          <Typography>Or</Typography>
+          <Box
+            sx={{ width: '100%', height: '3px', backgroundColor: '#DFE3E8', borderRadius: '6px' }}
+          ></Box>
+        </Box>
+      )}
     </>
   );
 };

@@ -100,11 +100,12 @@ export default function UserEditForm({ currentUser }) {
           },
         }
       );
-
     } catch (error) {
       console.error(error);
     }
   });
+
+  console.log(defaultValues);
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
