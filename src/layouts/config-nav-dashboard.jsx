@@ -44,13 +44,42 @@ export const navData = [
    * Overview
    */
   {
-    subheader: 'Home Preview',
+    subheader: 'Data Master',
     items: [
-      { title: 'One', path: paths.dashboard.root, icon: ICONS.dashboard },
       {
         title: 'User',
         path: paths.dashboard.user.root,
         icon: ICONS.user,
+        children: [
+          {
+            title: 'List',
+            path: paths.dashboard.user.root,
+          },
+          {
+            title: 'New',
+            path: paths.dashboard.user.new,
+          },
+        ],
+      },
+      {
+        title: 'Bahan',
+        path: paths.dashboard.user.root,
+        icon: ICONS.folder,
+        children: [
+          {
+            title: 'List',
+            path: paths.dashboard.user.root,
+          },
+          {
+            title: 'New',
+            path: paths.dashboard.user.new,
+          },
+        ],
+      },
+      {
+        title: 'Produk',
+        path: paths.dashboard.user.root,
+        icon: ICONS.product,
         children: [
           {
             title: 'List',

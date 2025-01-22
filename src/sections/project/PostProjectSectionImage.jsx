@@ -28,20 +28,28 @@ const PostProjectSectionImage = () => {
     dotsClass: 'slick-dots slick-thumb',
   };
 
-  const handleDropFile = useHandleDropFile(modelTypes, setFiles, files, false);
+  const handleDropFile = useHandleDropFile(
+    modelTypes,
+    setFiles,
+    files,
+    false,
+  );
 
   const { getInputProps, getRootProps, isDragActive } = useDropzone({
     onDrop: handleDropFile,
   });
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedFiles = localStorage.getItem('files');
-      if (storedFiles) {
-        setFiles(JSON.parse(storedFiles));
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const storedFiles = localStorage.getItem('files');
+  //     if (storedFiles) {
+  //       setFiles(JSON.parse(storedFiles));
+  //     }
+  //   }
+  // }, []);
+
+  console.log(files);
+
   return (
     <Grid
       item
@@ -81,10 +89,11 @@ const PostProjectSectionImage = () => {
                         width: '100%',
                         height: '350px',
                         backgroundRepeat: 'no-repeat',
+                        display: 'block',
                       }}
                       component={'div'}
                     >
-                      {!modelTypes.includes(file.type) ? (
+                      {!modelTypes.includes(file.type_ext) ? (
                         <Image
                           src={file.url ?? ''}
                           alt="thumbnail"
@@ -103,7 +112,7 @@ const PostProjectSectionImage = () => {
                             fontSize: '28px',
                           }}
                         >
-                          {file && file.file.path}
+                          {file && file.name}
                         </Box>
                       )}
                     </Box>
@@ -117,7 +126,7 @@ const PostProjectSectionImage = () => {
               direction="row"
               maxWidth={'100%'}
               sx={{ overflowX: 'auto' }}
-              spacing={2}
+              spacing={1}
               width={'100%'}
             >
               {files.map((file, index) => (
@@ -138,13 +147,15 @@ const PostProjectSectionImage = () => {
                     <Image
                       src={file.url ?? ''}
                       alt="thumbnail"
-                      layout="fill"
                       objectFit="cover"
                       style={{ borderRadius: '6px' }}
                       quality={100}
+                      width={60} // Ukuran tetap agar gambar tidak terpengaruh ukuran kontainer
+                      height={60}
                     />
+                    // <img src={file.url} alt="" style={{ width: '100%', height: '100%' }} />
                   ) : (
-                    file.type
+                    file.type_ext
                   )}
 
                   <IconButton
