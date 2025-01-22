@@ -33,6 +33,7 @@ const FormOauth = ({ showOr = true }) => {
         phone: result.phoneNumber,
       };
       console.log(newData);
+      console.log(result);
 
       signInWithGoogle(
         { ...newData },

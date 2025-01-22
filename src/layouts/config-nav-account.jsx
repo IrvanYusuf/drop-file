@@ -92,8 +92,8 @@ export const _accountUser = [
     ),
   },
   {
-    label: 'Jobs',
-    href: paths.job,
+    label: 'Projects',
+    href: paths.client.projects,
     icon: <Iconify icon="solar:notes-bold-duotone" />,
   },
 ];

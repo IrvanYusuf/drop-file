@@ -28,6 +28,9 @@ import { AccountButton } from '../account-button';
 import { SignOutButton } from '../sign-out-button';
 
 import { useMockedUser } from 'src/auth/hooks';
+import { RouterLink } from 'src/routes/components';
+import { Button } from '@mui/material';
+import Link from '@mui/material/Link';
 // ----------------------------------------------------------------------
 
 export function AccountDrawerHomePage({ data = [], sx, ...other }) {
@@ -150,6 +153,13 @@ export function AccountDrawerHomePage({ data = [], sx, ...other }) {
               );
             })}
           </Stack>
+          <Box sx={{ p: 2.5 }}>
+            <Link component={RouterLink} href={paths.postProject}>
+              <Button variant="contained" sx={{ paddingX: '20px', paddingY: '10px' }} fullWidth>
+                Start Dental Design Now
+              </Button>
+            </Link>
+          </Box>
         </Scrollbar>
 
         <Box sx={{ p: 2.5 }}>
