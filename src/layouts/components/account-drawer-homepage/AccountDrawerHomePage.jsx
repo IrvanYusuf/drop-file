@@ -52,14 +52,6 @@ export function AccountDrawerHomePage({ data = [], sx, ...other }) {
     setOpen(false);
   }, []);
 
-  const handleClickItem = useCallback(
-    (path) => {
-      handleCloseDrawer();
-      router.push(path);
-    },
-    [handleCloseDrawer, router]
-  );
-
   const renderAvatar = (
     <AnimateAvatar
       width={96}

@@ -21,7 +21,8 @@ export function SignOutButton({ onClose, ...other }) {
       await checkUserSession?.();
 
       onClose?.();
-      router.replace(paths.auth.signIn);
+      // router.replace(paths.auth.signIn);
+      return true;
     } catch (error) {
       console.error(error);
     }

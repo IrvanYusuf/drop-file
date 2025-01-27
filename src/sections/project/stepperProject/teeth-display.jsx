@@ -2,40 +2,8 @@ import { Stack } from '@mui/material';
 import React from 'react';
 import SelectedCircle from './SelectedCirle';
 
-// function SelectedCircle({ position, size, x, y, onClick, selected }) {
-//   const currentSelected = selected[position] ?? 0;
-//   const isActive = currentSelected;
-
-//   return (
-//     <circle
-//       cx={x}
-//       cy={y}
-//       r={size}
-//       stroke="black"
-//       strokeWidth={isActive ? 2 : 0}
-//       style={{
-//         fill: isActive ? '#F4861A' : 'transparent',
-//         cursor: 'pointer',
-//       }}
-//       onClick={() => onClick(position)}
-//     >
-//       <title>{currentSelected} Item</title>
-//     </circle>
-//   );
-// }
-
 export function TeethDisplay({ selected, onSelect }) {
-  // const d = selected.reduce((acc, curr) => {
-  //   if (acc[curr.position] === undefined) {
-  //     acc[curr.position] = 1;
-  //   } else {
-  //     acc[curr.position] += 1;
-  //   }
-  //   return acc;
-  // }, {});
-  // const selectedPositions = selected.map((item) => item.position);
-
-  // const handleClick = (position) => onSelect(position);
+  const handleClick = (position) => onSelect(position);
 
   const circles = [
     { x: 36, y: 190, size: 12, position: 18 },
@@ -85,7 +53,7 @@ export function TeethDisplay({ selected, onSelect }) {
             size={size}
             position={position}
             selected={selected}
-            onClick={onSelect}
+            onClick={handleClick}
           />
         ))}
       </svg>

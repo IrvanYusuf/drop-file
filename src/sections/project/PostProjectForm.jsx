@@ -8,16 +8,9 @@ import { useAuthContext } from 'src/auth/hooks';
 import FormOauth from 'src/auth/view/FormOAuth/FormOAuth';
 
 const steps = ['Projek', 'Produk', 'Pasien', 'Pembayaran'];
-const PostProjectForm = () => {
+const PostProjectForm = ({ formData, setFormData, files }) => {
   const [activeStep, setActiveStep] = useState(0);
   const { user } = useAuthContext();
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    product: '',
-    color: '',
-    position: [],
-  });
 
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
   const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -31,10 +24,13 @@ const PostProjectForm = () => {
     <ProjectStepper onValid={handleSubmitProject} formData={formData} />,
     <ProductStepper handleBack={handleBack} onValid={handleSubmitProject} formData={formData} />,
     <PatientStepper handleBack={handleBack} onValid={handleSubmitProject} formData={formData} />,
-    <PaymentStepper handleBack={handleBack} />,
+    <PaymentStepper
+      handleBack={handleBack}
+      onValid={handleSubmitProject}
+      formData={formData}
+      files={files}
+    />,
   ];
-
-  console.log(formData);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -47,7 +43,7 @@ const PostProjectForm = () => {
         ))}
       </Stepper>
       <Divider sx={{ my: 2 }} />
-      <Typography sx={{ mt: 2, mb: 1 }}>{stepContent[activeStep]}</Typography>
+      <Box sx={{ mt: 2, mb: 1 }}>{stepContent[activeStep]}</Box>
     </Box>
   );
 };

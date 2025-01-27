@@ -17,10 +17,12 @@ import JwtSignUpView from './jwt-sign-up-view';
 import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
 import { endpoints } from 'src/routes/endpoints';
 import { toast } from 'src/components/snackbar';
+import { sendEmailVerification } from 'firebase/auth';
 
 export default function SignUpPage({ isAdminForm = false }) {
   const [errorMsg, setErrorMsg] = useState('');
   const { checkUserSession } = useAuthContext();
+  const [emailSendVerify, setEmailSendVerify] = useState(false);
 
   const defaultValues = {
     full_name: '',
@@ -48,6 +50,7 @@ export default function SignUpPage({ isAdminForm = false }) {
     setErrorMsg('');
     try {
       const result = await signUpWithEmailPassword(data.email, data.password);
+      const providers = result.providerData.map((provider) => provider.providerId);
       const newData = {
         user_id: result.uid,
         fullname: data.full_name,
@@ -55,30 +58,39 @@ export default function SignUpPage({ isAdminForm = false }) {
         phone: data.phone,
         password: data.password,
         isAdminForm,
+        provider_id: providers[0],
       };
       console.log(result);
       signUpEmailPassword(
         { ...newData },
         {
           onSuccess: async (response) => {
-            toast.success('Sign up User success!');
+            toast.success('Sign up user success!');
             setSession(response.token);
-            await checkUserSession?.();
+            await sendEmailVerification(result)
+            setEmailSendVerify(true);
+
+            // await checkUserSession?.();
             console.log(response);
           },
           onError: (response) => {
-            toast.error('Failed Add New User!');
+            toast.error('Failed sign up user!');
           },
         }
       );
     } catch (error) {
       console.error(error.code);
-      toast.error("Email already use");
+      toast.error('Email already use');
       setErrorMsg(error.code === 'auth/email-already-in-use' ? 'Email already use' : error.message);
     }
   });
   return (
     <>
+      {emailSendVerify && (
+        <Alert severity="info" sx={{ mb: 3 }}>
+          Please check your email for verification!
+        </Alert>
+      )}
       <FormHead
         title="Get started absolutely free"
         sx={{ textAlign: { xs: 'center', md: 'left' } }}

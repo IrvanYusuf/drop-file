@@ -177,7 +177,7 @@ export default function UserPage() {
               onSelectAllRows={(checked) =>
                 table.onSelectAllRows(
                   checked,
-                  dataFiltered.map((row) => row.id)
+                  dataFiltered.map((row) => row.user_id)
                 )
               }
               action={
@@ -201,7 +201,7 @@ export default function UserPage() {
                   onSelectAllRows={(checked) =>
                     table.onSelectAllRows(
                       checked,
-                      dataFiltered.map((row) => row.id)
+                      dataFiltered.map((row) => row.user_id)
                     )
                   }
                 />

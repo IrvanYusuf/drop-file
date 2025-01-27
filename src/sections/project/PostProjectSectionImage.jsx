@@ -6,11 +6,10 @@ import Slider from 'react-slick';
 import { Iconify } from 'src/components/iconify';
 import { useHandleDropFile } from 'src/hooks/use-on-drop-file';
 
-const PostProjectSectionImage = () => {
+const PostProjectSectionImage = ({ setFiles, files }) => {
   const fileInputRef = useRef(null);
   const theme = useTheme();
 
-  const [files, setFiles] = useState(null);
 
   const handleRemoveImg = (index) => {
     const filteredFiles = files.filter((_, idx) => idx !== index);
@@ -28,12 +27,7 @@ const PostProjectSectionImage = () => {
     dotsClass: 'slick-dots slick-thumb',
   };
 
-  const handleDropFile = useHandleDropFile(
-    modelTypes,
-    setFiles,
-    files,
-    false,
-  );
+  const handleDropFile = useHandleDropFile(modelTypes, setFiles, files, false);
 
   const { getInputProps, getRootProps, isDragActive } = useDropzone({
     onDrop: handleDropFile,
@@ -54,7 +48,7 @@ const PostProjectSectionImage = () => {
     <Grid
       item
       xs={12}
-      md={7.5}
+      md={6}
       sx={{
         backgroundColor: '#E8F2FE',
         borderRadius: '15px 0 0 15px',
@@ -153,8 +147,8 @@ const PostProjectSectionImage = () => {
                       width={60} // Ukuran tetap agar gambar tidak terpengaruh ukuran kontainer
                       height={60}
                     />
-                    // <img src={file.url} alt="" style={{ width: '100%', height: '100%' }} />
                   ) : (
+                    // <img src={file.url} alt="" style={{ width: '100%', height: '100%' }} />
                     file.type_ext
                   )}
 

@@ -1,6 +1,6 @@
 export default function SelectedCircle({ position, size, x, y, onClick, selected }) {
-  const isActive = selected.includes(position);
-
+  // const isActive = selected.includes(position);
+  const isActive = selected.some((item) => item.positions.includes(position));
   return (
     <circle
       cx={x}

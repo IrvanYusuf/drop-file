@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, Stack } from '@mui/material';
 import { Field, Form } from 'src/components/hook-form';
-import { createProjectSchemaValidation } from 'src/schema-validations/auth/createProjectSchemaValidation';
+import { createProjectSchemaValidation } from 'src/schema-validations/stepper/projectStepperSchemaValidation';
 
 const ProjectStepper = ({ onValid, formData }) => {
   const methods = useForm({

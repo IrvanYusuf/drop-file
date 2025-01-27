@@ -46,7 +46,6 @@ export default function SignInPage({ formOAuthShow = true }) {
     try {
       const result = await signInWithEmailPassword(data.email, data.password);
       const payload = {
-        user_id: result.uid,
         email: data.email,
         password: data.password,
       };

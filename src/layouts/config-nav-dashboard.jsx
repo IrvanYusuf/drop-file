@@ -63,36 +63,51 @@ export const navData = [
       },
       {
         title: 'Bahan',
-        path: paths.dashboard.user.root,
+        path: paths.dashboard.bahan.root,
         icon: ICONS.folder,
         children: [
           {
             title: 'List',
-            path: paths.dashboard.user.root,
+            path: paths.dashboard.bahan.root,
           },
           {
             title: 'New',
-            path: paths.dashboard.user.new,
+            path: paths.dashboard.bahan.new,
           },
         ],
       },
       {
         title: 'Produk',
-        path: paths.dashboard.user.root,
-        icon: ICONS.product,
+        path: paths.dashboard.product.root,
+        icon: ICONS.ecommerce,
         children: [
           {
             title: 'List',
-            path: paths.dashboard.user.root,
+            path: paths.dashboard.product.root,
           },
           {
             title: 'New',
-            path: paths.dashboard.user.new,
+            path: paths.dashboard.product.new,
           },
         ],
       },
-      { title: 'Two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-      { title: 'Three1', path: paths.dashboard.three, icon: ICONS.analytics },
+      {
+        title: 'Rekening',
+        path: paths.dashboard.rekening.root,
+        icon: ICONS.banking,
+        children: [
+          {
+            title: 'List',
+            path: paths.dashboard.rekening.root,
+          },
+          {
+            title: 'New',
+            path: paths.dashboard.rekening.new,
+          },
+        ],
+      },
+      // { title: 'Two', path: paths.dashboard.two, icon: ICONS.ecommerce },
+      // { title: 'Three1', path: paths.dashboard.three, icon: ICONS.analytics },
     ],
   },
   /**

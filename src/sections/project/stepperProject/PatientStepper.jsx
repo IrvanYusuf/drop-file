@@ -2,12 +2,16 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, Stack } from '@mui/material';
 import { Field, Form } from 'src/components/hook-form';
+import { patientStepperSchemaValidation } from 'src/schema-validations/stepper/projectStepperSchemaValidation';
 
 const PatientStepper = ({ onValid, formData, handleBack }) => {
   const methods = useForm({
     mode: 'onSubmit',
-    // resolver: zodResolver(createProjectSchemaValidation),
-    defaultValues: formData, // Menggunakan formData yang diteruskan dari parent
+    resolver: zodResolver(patientStepperSchemaValidation),
+    defaultValues: {
+      ...formData,
+      patients: formData.patients || { patientName: '', patientPhone: '' },
+    }, // Menggunakan formData yang diteruskan dari parent
   });
 
   const { handleSubmit, getValues } = methods;
@@ -20,10 +24,19 @@ const PatientStepper = ({ onValid, formData, handleBack }) => {
     onValid(formValues); // Callback ke parent untuk melanjutkan ke langkah berikutnya
   });
 
+  // useEffect(() => {
+  //   methods.reset({
+  //     ...formData,
+  //     patients: formData.patients || [],
+  //   });
+  // }, [formData, methods]);
+
+  console.log(formData);
+
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Field.Text name="patient_name" label="Nama Pasien" sx={{ my: 3 }} />
-      <Field.Text name="patient_no_hp" label="No Hp Pasien" />
+      <Field.Text name="patients.patientName" label="Nama Pasien" sx={{ my: 3 }} />
+      <Field.Text name="patients.patientPhone" label="No Hp Pasien" />
       <Stack justifyContent="end" alignItems={'end'} sx={{ width: '100%' }}>
         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
           <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>

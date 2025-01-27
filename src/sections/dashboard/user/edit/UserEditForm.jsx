@@ -92,6 +92,7 @@ export default function UserEditForm({ currentUser }) {
             console.log(newUserData);
             toast.success('Edit User success!');
             queryClient.invalidateQueries(['users']);
+            queryClient.invalidateQueries([`edit-user-dashboard-${currentUser.user_id}`]);
             reset();
             router.push(paths.dashboard.user.root);
           },

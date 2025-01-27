@@ -7,7 +7,7 @@ export const useHandleDropFile = (
   modelTypes = [],
   setFiles,
   files,
-  navigate = false,
+  navigate = false
 ) => {
   const router = useRouter();
   // const onDrop = useCallback(
@@ -56,10 +56,11 @@ export const useHandleDropFile = (
     async (acceptedFiles) => {
       console.log(acceptedFiles);
 
-
       if (acceptedFiles.length > 0) {
         const fileURLs = await Promise.all(
           acceptedFiles.map(async (file) => {
+            console.log('file', file);
+
             const fileExtension = file.name.split('.').pop().toLowerCase();
             if (!modelTypes.includes(fileExtension)) {
               const url = await fileToBase64(file);
