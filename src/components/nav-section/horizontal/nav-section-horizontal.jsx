@@ -25,39 +25,32 @@ export function NavSectionHorizontal({
   };
 
   return (
-    <Scrollbar
-      sx={{ height: 1 }}
-      slotProps={{
-        content: { height: 1, display: 'flex', alignItems: 'center' },
+    <Stack
+      component="nav"
+      direction="row"
+      alignItems="center"
+      className={navSectionClasses.horizontal.root}
+      sx={{
+        ...cssVars,
+        mx: 'auto',
+        height: 1,
+        minHeight: 'var(--nav-height)',
+        ...sx,
       }}
     >
-      <Stack
-        component="nav"
-        direction="row"
-        alignItems="center"
-        className={navSectionClasses.horizontal.root}
-        sx={{
-          ...cssVars,
-          mx: 'auto',
-          height: 1,
-          minHeight: 'var(--nav-height)',
-          ...sx,
-        }}
-      >
-        <NavUl sx={{ flexDirection: 'row', gap: 'var(--nav-item-gap)' }}>
-          {data.map((group) => (
-            <Group
-              key={group.subheader ?? group.items[0].title}
-              render={render}
-              cssVars={cssVars}
-              items={group.items}
-              slotProps={slotProps}
-              enabledRootRedirect={enabledRootRedirect}
-            />
-          ))}
-        </NavUl>
-      </Stack>
-    </Scrollbar>
+      <NavUl sx={{ flexDirection: 'row', gap: 'var(--nav-item-gap)' }}>
+        {data.map((group) => (
+          <Group
+            key={group.subheader ?? group.items[0].title}
+            render={render}
+            cssVars={cssVars}
+            items={group.items}
+            slotProps={slotProps}
+            enabledRootRedirect={enabledRootRedirect}
+          />
+        ))}
+      </NavUl>
+    </Stack>
   );
 }
 

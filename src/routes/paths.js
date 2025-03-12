@@ -16,11 +16,29 @@ export const paths = {
   notAuthenticated: '/not-authenticated',
   // about:"/abouts",
   minimalStore: 'https://mui.com/store/items/minimal-dashboard/',
+  browseProject: {
+    root: '/browse-projects',
+    detail: (id) => `/browse-projects/${id}/detail`,
+  },
   // Profile Client (Dokter)
   client: {
-    profile: '/profile',
+    profile: {
+      root: '/profile',
+      edit: (id) => `/profile/${id}/edit`,
+    },
     transactions: '/transactions',
-    projects: '/projects',
+    projects: {
+      root: '/projects',
+      detail: (id) => `/projects/${id}/detail`,
+    },
+    yourWorks: {
+      root: '/your-works',
+      detail: (id) => `/projects/${id}/detail`,
+    },
+    projectsAvailable: {
+      root: '/projects-available',
+      detail: (id) => `/projects/${id}/detail`,
+    },
   },
   // AUTH
   auth: {
@@ -60,11 +78,12 @@ export const paths = {
       detail: (id) => `${ROOTS.DASHBOARD}/rekening/${id}/detail`,
       edit: (id) => `${ROOTS.DASHBOARD}/rekening/${id}/edit`,
     },
-    three: `${ROOTS.DASHBOARD}/three`,
-    group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
+    projek: {
+      root: `${ROOTS.DASHBOARD}/project`,
+      new: `${ROOTS.DASHBOARD}/project/new`,
+      detail: (id) => `${ROOTS.DASHBOARD}/project/${id}/detail`,
+      edit: (id) => `${ROOTS.DASHBOARD}/project/${id}/edit`,
     },
+    three: `${ROOTS.DASHBOARD}/three`,
   },
 };

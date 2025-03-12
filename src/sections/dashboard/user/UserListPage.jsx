@@ -65,7 +65,7 @@ export default function UserPage() {
 
   const router = useRouter();
 
-  const { data = [], isLoading } = useQuery(['users'], '/api/v1/users');
+  const { data = [], isLoading } = useQuery(['users'], endpoints.user.root);
   // console.log(data);
 
   const roles = ['ADMIN', 'CLIENT', 'WORKER'];

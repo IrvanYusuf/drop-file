@@ -1,15 +1,19 @@
 import { Box, Button, Grid, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useForm } from 'react-hook-form';
 import Slider from 'react-slick';
 import { Iconify } from 'src/components/iconify';
+import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
 import { useHandleDropFile } from 'src/hooks/use-on-drop-file';
-
+import { toast } from 'src/components/snackbar';
+import axios from 'axios';
 const PostProjectSectionImage = ({ setFiles, files }) => {
   const fileInputRef = useRef(null);
   const theme = useTheme();
 
+  const [filesUpload, setFilesUpload] = useState([]);
 
   const handleRemoveImg = (index) => {
     const filteredFiles = files.filter((_, idx) => idx !== index);
@@ -29,20 +33,50 @@ const PostProjectSectionImage = ({ setFiles, files }) => {
 
   const handleDropFile = useHandleDropFile(modelTypes, setFiles, files, false);
 
-  const { getInputProps, getRootProps, isDragActive } = useDropzone({
+  const { getInputProps, getRootProps, isDragActive, acceptedFiles } = useDropzone({
     onDrop: handleDropFile,
   });
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     const storedFiles = localStorage.getItem('files');
-  //     if (storedFiles) {
-  //       setFiles(JSON.parse(storedFiles));
-  //     }
-  //   }
-  // }, []);
+  const { mutate: createNewProject } = useMutation('POST', '/api/v1/projects');
+  const methods = useForm({
+    defaultValues: { files: [] },
+  });
 
-  console.log(files);
+  const {
+    handleSubmit,
+    setValue,
+    watch,
+    getValues,
+    formState: { errors },
+  } = methods;
+
+  const onSubmit = handleSubmit((data) => {
+    const formData = new FormData();
+
+    data.files.forEach((img) => {
+      console.log('append img', img);
+      formData.append('images', img);
+    });
+    try {
+      createNewProject(formData, {
+        onSuccess: (response) => {
+          toast.success('success create project');
+        },
+      });
+      console.log('data', data);
+      console.log('form data', formData);
+    } catch (error) {
+      toast.error('failed create project');
+    }
+  });
+
+  useEffect(() => {
+    if (acceptedFiles.length > 0) {
+      setFilesUpload(acceptedFiles);
+      setValue('files', acceptedFiles);
+      console.log('acc files', acceptedFiles);
+    }
+  }, [acceptedFiles]);
 
   return (
     <Grid
@@ -117,10 +151,10 @@ const PostProjectSectionImage = ({ setFiles, files }) => {
           )}
           <Stack direction="row" spacing={2} sx={{ marginTop: 8 }} justifyContent={'space-between'}>
             <Stack
+              spacing={2}
               direction="row"
               maxWidth={'100%'}
               sx={{ overflowX: 'auto' }}
-              spacing={1}
               width={'100%'}
             >
               {files.map((file, index) => (
@@ -130,6 +164,7 @@ const PostProjectSectionImage = ({ setFiles, files }) => {
                     position: 'relative',
                     width: '60px',
                     height: '60px',
+                    minWidth: '60px',
                     border: '2px solid #3FA2ED',
                     borderRadius: '6px',
                     display: 'flex',

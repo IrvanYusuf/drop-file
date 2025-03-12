@@ -37,4 +37,7 @@ export const CreateNewUserSchemaValidation = zod.object({
   address: zod.string().optional(),
   role_id: zod.string().min(1, { message: 'Role is required!' }),
   description: zod.string().optional(),
+  is_member_dentaloka: zod
+    .union([zod.boolean(), zod.string()])
+    .transform((val) => val === 'true' || val === true),
 });

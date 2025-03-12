@@ -1,4 +1,4 @@
-export default function SelectedCircle({ position, size, x, y, onClick, selected }) {
+export default function SelectedCircle({ position, size, x, y, onClick, selected, onSelect }) {
   // const isActive = selected.includes(position);
   const isActive = selected.some((item) => item.positions.includes(position));
   return (
@@ -10,7 +10,7 @@ export default function SelectedCircle({ position, size, x, y, onClick, selected
       strokeWidth={isActive ? 2 : 0}
       style={{
         fill: isActive ? '#455a64' : 'transparent',
-        cursor: 'pointer',
+        cursor: onSelect && 'pointer',
       }}
       onClick={() => onClick(position)}
     >

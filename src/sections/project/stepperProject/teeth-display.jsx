@@ -54,6 +54,7 @@ export function TeethDisplay({ selected, onSelect }) {
             position={position}
             selected={selected}
             onClick={handleClick}
+            onSelect={onSelect}
           />
         ))}
       </svg>

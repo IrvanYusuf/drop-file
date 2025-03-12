@@ -31,9 +31,11 @@ import { useMockedUser } from 'src/auth/hooks';
 import { RouterLink } from 'src/routes/components';
 import { Button } from '@mui/material';
 import Link from '@mui/material/Link';
+import { NavSectionVertical } from 'src/components/nav-section';
+import { CONFIG } from 'src/config-global';
 // ----------------------------------------------------------------------
 
-export function AccountDrawerHomePage({ data = [], sx, ...other }) {
+export function AccountDrawerHomePage({ data = [], currentUser, sx, ...other }) {
   const theme = useTheme();
 
   const router = useRouter();
@@ -52,11 +54,16 @@ export function AccountDrawerHomePage({ data = [], sx, ...other }) {
     setOpen(false);
   }, []);
 
+  console.log(currentUser);
+
   const renderAvatar = (
     <AnimateAvatar
       width={96}
       slotProps={{
-        avatar: { src: user?.photoURL, alt: user?.displayName },
+        avatar: {
+          src: `${CONFIG.BASE_API_URL}/images/avatar/${currentUser && currentUser.photo}`,
+          alt: currentUser?.fullname,
+        },
         overlay: {
           border: 2,
           spacing: 3,
@@ -72,7 +79,7 @@ export function AccountDrawerHomePage({ data = [], sx, ...other }) {
     <>
       <AccountButton
         onClick={handleOpenDrawer}
-        photoURL={user?.photoURL}
+        photoURL={`${CONFIG.BASE_API_URL}/images/avatar/${currentUser && currentUser.photo}`}
         displayName={user?.displayName}
         sx={sx}
         {...other}
@@ -97,11 +104,11 @@ export function AccountDrawerHomePage({ data = [], sx, ...other }) {
             {renderAvatar}
 
             <Typography variant="subtitle1" noWrap sx={{ mt: 2 }}>
-              {user?.displayName}
+              {currentUser?.fullname}
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }} noWrap>
-              {user?.email}
+              {currentUser?.email}
             </Typography>
           </Stack>
 
@@ -113,37 +120,39 @@ export function AccountDrawerHomePage({ data = [], sx, ...other }) {
               borderBottom: `dashed 1px ${theme.vars.palette.divider}`,
             }}
           >
-            {data.map((option) => {
+            {/* {data.map((option) => {
               return (
-                <MenuItem
-                  key={option.label}
-                  onClick={() => handleClickItem(option.href)}
-                  // component={RouterLink}
-                  sx={{
-                    py: 1,
-                    color: 'text.secondary',
-                    '& svg': { width: 24, height: 24 },
-                    '&:hover': { color: 'text.primary', textDecoration: 'none' },
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                  }}
-                >
-                  {option.icon}
+                <Link component={RouterLink} href={option.href}>
+                  <MenuItem
+                    key={option.label}
+                    // component={RouterLink}
+                    sx={{
+                      py: 1,
+                      color: 'text.secondary',
+                      '& svg': { width: 24, height: 24 },
+                      '&:hover': { color: 'text.primary', textDecoration: 'none' },
+                      display: 'flex',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {option.icon}
 
-                  <Box component="span" sx={{ ml: 2 }}>
-                    {option.label}
-                  </Box>
+                    <Box component="span" sx={{ ml: 2 }}>
+                      {option.label}
+                    </Box>
 
-                  {option.info && (
-                    <Label color="error" sx={{ ml: 1 }}>
-                      {option.info}
-                    </Label>
-                  )}
-                </MenuItem>
+                    {option.info && (
+                      <Label color="error" sx={{ ml: 1 }}>
+                        {option.info}
+                      </Label>
+                    )}
+                  </MenuItem>
+                </Link>
               );
-            })}
+            })} */}
+            <NavSectionVertical data={data} />
           </Stack>
           <Box sx={{ p: 2.5 }}>
             <Link component={RouterLink} href={paths.postProject}>

@@ -23,6 +23,7 @@ import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { useCallback, useState } from 'react';
 import { useRouter } from 'src/routes/hooks';
 import { useDebouncedCallback } from 'use-debounce';
+import { endpoints } from 'src/routes/endpoints';
 
 const TABLE_HEAD = [
   { id: 'no', label: 'No' },
@@ -50,7 +51,7 @@ const BahanListPage = () => {
     data = [],
     isLoading,
     pagination,
-  } = useQuery(['bahan', ...queryDeps], '/api/v1/bahan/v2', {
+  } = useQuery(['bahan', ...queryDeps], endpoints.bahan.v2, {
     params: {
       search: search,
       page,

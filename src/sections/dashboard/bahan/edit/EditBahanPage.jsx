@@ -5,11 +5,12 @@ import EditBahanForm from './EditBahanForm';
 import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { Typography } from '@mui/material';
 import { paths } from 'src/routes/paths';
+import { endpoints } from 'src/routes/endpoints';
 
 const EditBahanPage = ({ id }) => {
   const { data: [dataDetailBahan] = [], isLoading } = useQuery(
     [`edit-bahan-${id}`],
-    `/api/v1/bahan/${id}`
+    `${endpoints.bahan.root}/${id}`
   );
 
   if (isLoading) {

@@ -3,14 +3,19 @@ import { Box, Button, Container, Grid, Typography, useTheme } from '@mui/materia
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useAuthContext } from 'src/auth/hooks';
 import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { useHandleDropFile } from 'src/hooks/use-on-drop-file';
+import { auth } from 'src/libs/firebase/config';
 
 export function HeroSection() {
   const theme = useTheme();
   const fileInputRef = useRef(null);
   const [files, setFiles] = useState(null);
   const modelTypes = ['stl', 'glb'];
+  const { user } = useAuthContext();
+
+  console.log(user);
 
   const handleDrop = useHandleDropFile(modelTypes, setFiles, files, true);
 

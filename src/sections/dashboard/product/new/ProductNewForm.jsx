@@ -12,6 +12,7 @@ import { createNewProductSchemaValidation } from 'src/schema-validations/auth/cr
 import { zodResolver } from '@hookform/resolvers/zod';
 import { paths } from 'src/routes/paths';
 import { queryClient } from 'src/libs/query-client';
+import { endpoints } from 'src/routes/endpoints';
 const ProductNewForm = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const router = useRouter();
@@ -28,9 +29,9 @@ const ProductNewForm = () => {
   });
 
   //   ambil semua bahan
-  const { data: dataBahan } = useQuery([], '/api/v1/bahan/v2');
+  const { data: dataBahan } = useQuery([], endpoints.bahan.v2);
 
-  const { mutate: createNewProduct, isLoading } = useMutation('POST', '/api/v1/products');
+  const { mutate: createNewProduct, isLoading } = useMutation('POST', endpoints.product.root);
 
   const {
     reset,

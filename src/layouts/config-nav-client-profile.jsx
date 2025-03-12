@@ -46,9 +46,36 @@ export const navDataClientProfile = [
   {
     subheader: null,
     items: [
-      { title: 'Profile', path: paths.client.profile },
-      { title: 'Transactions', path: paths.client.transactions },
-      { title: 'Projects', path: paths.client.projects },
+      {
+        title: 'Profile',
+        path: paths.client.profile.root,
+        visibility: ['ADMIN', 'CLIENT', 'WORKER'],
+        needLogin: false,
+      },
+      {
+        title: 'Projects',
+        path: paths.client.projects.root,
+        visibility: ['CLIENT'],
+        needLogin: false,
+      },
+      {
+        title: 'Projects Available',
+        path: paths.client.projectsAvailable.root,
+        visibility: ['WORKER'],
+        needLogin: true,
+      },
+      {
+        title: 'Your Works',
+        path: paths.client.yourWorks.root,
+        visibility: ['WORKER'],
+        needLogin: true,
+      },
+      {
+        title: 'Transactions',
+        path: paths.client.transactions,
+        visibility: ['CLIENT', 'WORKER'],
+        needLogin: false,
+      },
     ],
   },
   /**

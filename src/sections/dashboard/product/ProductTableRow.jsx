@@ -23,19 +23,24 @@ import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
 import { queryClient } from 'src/libs/query-client';
 import { toast } from 'src/components/snackbar';
 import { FormatCurrencyRupiah } from 'src/utils/currency-format';
+import { endpoints } from 'src/routes/endpoints';
 // ----------------------------------------------------------------------
 
 export function ProductTableRow({ row, index, selected, onEditRow, onSelectRow }) {
   const confirm = useBoolean();
 
   const popover = usePopover();
-  const { mutate: deleteProductData } = useMutation('DELETE', `/api/v1/products/${row.product_id}`, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['products']);
-      toast.success('Delete success!');
-      confirm.onFalse();
-    },
-  });
+  const { mutate: deleteProductData } = useMutation(
+    'DELETE',
+    `${endpoints.product.root}/${row.product_id}`,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['products']);
+        toast.success('Delete success!');
+        confirm.onFalse();
+      },
+    }
+  );
 
   const handleDeleteConfirm = () => deleteProductData();
 

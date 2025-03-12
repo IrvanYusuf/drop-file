@@ -19,6 +19,17 @@ const nextConfig = {
       transform: '@mui/lab/{{member}}',
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3003', // Pastikan ini sesuai dengan port API kamu
+        pathname: '/images/**',
+      },
+    ],
+    domains: ['localhost'], // Tambahkan domain localhost
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

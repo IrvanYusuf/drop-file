@@ -29,9 +29,9 @@ export function NavSectionVertical({
   return (
     <Stack component="nav" className={navSectionClasses.vertical.root} sx={{ ...cssVars, ...sx }}>
       <NavUl sx={{ flex: '1 1 auto', gap: 'var(--nav-item-gap)' }}>
-        {data.map((group) => (
+        {data.map((group, index) => (
           <Group
-            key={group.subheader ?? group.items[0].title}
+            key={group.subheader ?? (group.items && group.items[0].title)}
             subheader={group.subheader}
             items={group.items}
             render={render}
@@ -55,7 +55,7 @@ function Group({ items, render, subheader, slotProps, enabledRootRedirect }) {
 
   const renderContent = (
     <NavUl sx={{ gap: 'var(--nav-item-gap)' }}>
-      {items.map((list) => (
+      {items.map((list, index) => (
         <NavList
           key={list.title}
           data={list}

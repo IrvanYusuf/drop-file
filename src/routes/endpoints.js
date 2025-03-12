@@ -3,28 +3,32 @@ export const endpoints = {
   kanban: '/api/kanban',
   calendar: '/api/calendar',
   user: {
-    create: '/api/v1/users',
+    root: '/api/v1/users',
   },
   auth: {
     signInWithGoogle: '/api/v1/auth/sign-in-with-google',
     signUpWithEmailPassword: '/api/v1/auth/sign-up-with-email-password',
     signInWithEmailPassword: '/api/v1/auth/sign-in-with-email-password',
-    signUp: '/api/auth/sign-up',
+    signUp: '/api/v1/auth/sign-up',
+    updateEmailVerify: `/api/v1/auth/update-email-verify`,
+    sendEmailOtp: `/api/v1/auth/send-email-otp`,
+    updatePassword: `/api/v1/auth/update-password`,
+    requestVerifyEmail: `/api/v1/auth/request-verify-email`,
   },
-  mail: {
-    list: '/api/mail/list',
-    details: '/api/mail/details',
-    labels: '/api/mail/labels',
+  bahan: {
+    root: '/api/v1/bahan',
+    v2: '/api/v1/bahan/v2',
   },
-  post: {
-    list: '/api/post/list',
-    details: '/api/post/details',
-    latest: '/api/post/latest',
-    search: '/api/post/search',
+  rekening: {
+    root: '/api/v1/rekening',
+  },
+  project: {
+    root: '/api/v1/projects',
+  },
+  role: {
+    root: '/api/v1/roles',
   },
   product: {
-    list: '/api/product/list',
-    details: '/api/product/details',
-    search: '/api/product/search',
+    root: '/api/v1/products',
   },
 };

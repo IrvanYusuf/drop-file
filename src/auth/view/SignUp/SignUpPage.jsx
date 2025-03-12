@@ -66,8 +66,8 @@ export default function SignUpPage({ isAdminForm = false }) {
         {
           onSuccess: async (response) => {
             toast.success('Sign up user success!');
-            setSession(response.token);
-            await sendEmailVerification(result)
+            // setSession(response.token);
+            // await sendEmailVerification(result);
             setEmailSendVerify(true);
 
             // await checkUserSession?.();

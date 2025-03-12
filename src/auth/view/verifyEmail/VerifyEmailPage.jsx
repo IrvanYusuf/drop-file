@@ -6,10 +6,83 @@ import { CONFIG } from 'src/config-global';
 import { m } from 'framer-motion';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
+import firebase from 'firebase/app';
+import { applyActionCode } from 'firebase/auth';
+import { auth } from 'src/libs/firebase/config';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { endpoints } from 'src/routes/endpoints';
+import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
+import { useRouter } from 'src/routes/hooks';
+import { setSession } from 'src/auth/context/jwt';
+import { useAuthContext } from 'src/auth/hooks';
 
 const VerifyEmailPage = () => {
   const imageUrl = `${CONFIG.assetsDir}/assets/illustrations/characters/character-3.webp`;
-  console.log(imageUrl);
+  const search = useSearchParams();
+  const [isVerified, setIsVerified] = useState(false);
+  const router = useRouter();
+  const { checkUserSession } = useAuthContext();
+
+  const [email, setEmail] = useState('');
+  const oobCode = search.get('oobCode');
+
+  if (!oobCode) {
+    return router.replace(paths.home);
+  }
+  const handleVerifyOobCode = async () => {
+    try {
+      // Mendapatkan oobCode dari query parameter
+      if (!oobCode) {
+        throw new Error('Invalid verification code');
+      }
+
+      // Apply action code to verify email
+      // await applyActionCode(auth, oobCode);
+      setIsVerified(true);
+      setEmail(search.get('email')); // Set the email for the mutation
+
+      // Verifikasi berhasil
+    } catch (error) {
+      // Menangani error jika terjadi
+      console.error('Error verifying email:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    handleVerifyOobCode();
+  }, []);
+
+  // Use useMutation with the endpoint to update email verification
+  const { mutate, error, isLoading } = useMutation('PUT', endpoints.auth.updateEmailVerify);
+
+  const verifyData = {
+    email,
+    is_verified: true,
+  };
+  console.log(verifyData);
+
+  // Trigger the mutation when the email is verified
+  useEffect(() => {
+    if (isVerified && email) {
+      mutate(
+        { ...verifyData },
+        {
+          onSuccess: (response) => {
+            console.log('Email verification updated successfully:', response);
+            setSession(response.token);
+            setTimeout(async () => {
+              await checkUserSession?.();
+              router.refresh();
+            }, 1200);
+          },
+          onError: (err) => {
+            console.error('Error updating email verification:', err);
+          },
+        }
+      ); // Trigger the mutation
+    }
+  }, [isVerified, email, mutate]);
 
   return (
     <Container
@@ -25,9 +98,13 @@ const VerifyEmailPage = () => {
       }}
     >
       <m.div variants={varBounce().in}>
-        <Typography variant="h3" sx={{ mb: 2 }}>
-          Your email has been verified
-        </Typography>
+        {isVerified ? (
+          <Typography variant="h3" sx={{ mb: 2 }}>
+            Your email has been verified
+          </Typography>
+        ) : (
+          'Verifying email...'
+        )}
       </m.div>
 
       <m.div variants={varBounce().in}>
@@ -37,18 +114,15 @@ const VerifyEmailPage = () => {
       </m.div>
 
       <m.div variants={varBounce().in}>
-        {/* <ForbiddenIllustration sx={{ my: { xs: 5, sm: 10 } }} /> */}
-        {/* <Box width="100%" height="100%" component={'image'}> */}
         <img src={imageUrl} height="300" x="220" y="30" />
-        {/* </Box> */}
       </m.div>
-      <m.div variants={varBounce().in} style={{ marginTop: '20px' }}>
+      {/* <m.div variants={varBounce().in} style={{ marginTop: '20px' }}>
         <Link component={RouterLink} href={paths.auth.signIn}>
           <Button size="small" variant="contained">
             Login Now
           </Button>
         </Link>
-      </m.div>
+      </m.div> */}
     </Container>
   );
 };

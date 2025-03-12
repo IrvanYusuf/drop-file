@@ -31,6 +31,7 @@ import { ProductTableRow } from './ProductTableRow';
 import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { ProductTableToolbar } from './ProductTableToolbar';
 import { useDebouncedCallback } from 'use-debounce';
+import { endpoints } from 'src/routes/endpoints';
 
 const TABLE_HEAD = [
   { id: 'no', label: 'No' },
@@ -123,7 +124,7 @@ const ProductListPage = () => {
     data: dataProducts,
     isLoading,
     pagination,
-  } = useQuery(['products', ...queryDeps], '/api/v1/products', {
+  } = useQuery(['products', ...queryDeps], endpoints.product.root, {
     params: {
       search,
     },

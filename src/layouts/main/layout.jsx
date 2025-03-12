@@ -16,6 +16,7 @@ import NavbarDekstop from 'src/components/organims/navbar-dekstop/NavbarDekstop'
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
 import NavMobile from 'src/components/organims/navbar-mobile/NavbarMobile';
+import { HomeFooter } from './footer';
 // ----------------------------------------------------------------------
 // ----------------------------------------------------------------------
 
@@ -97,7 +98,7 @@ export function MainLayout({ sx, children, header, content }) {
       /** **************************************
        * Footer
        *************************************** */
-      footerSection={null}
+      footerSection={<HomeFooter />}
       /** **************************************
        * Style
        *************************************** */

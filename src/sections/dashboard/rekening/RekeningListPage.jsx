@@ -23,6 +23,7 @@ import { useRouter } from 'src/routes/hooks';
 import { useDebouncedCallback } from 'use-debounce';
 import { RekeningTableRow } from './RekeningTableRow';
 import { RekeningTableToolbar } from './RekeningTableToolbar';
+import { endpoints } from 'src/routes/endpoints';
 
 const TABLE_HEAD = [
   { id: 'no', label: 'No' },
@@ -49,7 +50,7 @@ const RekeningListPage = () => {
 
   const queryDeps = [search, page, limit];
   // const { data = [], isLoading } = useQuery(['bahan'], '/api/v1/bahan');
-  const { data = [], isLoading, pagination } = useQuery(['rekening'], '/api/v1/rekening');
+  const { data = [], isLoading, pagination } = useQuery(['rekening'], endpoints.rekening.root);
 
   const filters = useSetState({ bahan: search });
 

@@ -4,13 +4,14 @@ import React from 'react';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { DashboardContent } from 'src/layouts/dashboard';
+import { endpoints } from 'src/routes/endpoints';
 import { paths } from 'src/routes/paths';
 import { FormatCurrencyRupiah } from 'src/utils/currency-format';
 
 const DetailProductPage = ({ id }) => {
   const { data: [dataDetailProduct] = [], isLoading } = useQuery(
     [`detail-product-${id}`],
-    `/api/v1/products/${id}`
+    `${endpoints.product.root}/${id}`
   );
 
   if (isLoading) {

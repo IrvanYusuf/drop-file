@@ -7,6 +7,7 @@ export function useActiveLink(itemPath, deep = true) {
   const pathname = removeLastSlash(usePathname());
 
   const pathHasParams = hasParams(itemPath);
+  console.log(pathHasParams);
 
   /* Start check */
   const notValid = itemPath.startsWith('#') || isExternalLink(itemPath);
@@ -16,6 +17,15 @@ export function useActiveLink(itemPath, deep = true) {
   }
   /* End check */
 
+  const adminPaths = ['/dashboard/project'];
+  const clientPaths = '/projects';
+  console.log('item path', itemPath);
+
+  const isProjectPage = adminPaths.includes(itemPath) || clientPaths.startsWith(itemPath);
+  console.log(isProjectPage);
+
+  const isInProjectDetail =
+    isProjectPage && pathname.match(new RegExp(`^${itemPath}/[^/]+/detail/?$`));
   /**
    * [1] Apply for Item has children or has params.
    */
@@ -31,7 +41,8 @@ export function useActiveLink(itemPath, deep = true) {
      * @match pathname = '/dashboard/user/list'
      * @match pathname = '/dashboard/user/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b15/edit'
      */
-    const defaultActive = pathname.includes(itemPath);
+    // const defaultActive = pathname.includes(itemPath);
+    const defaultActive = pathname.startsWith(itemPath);
 
     /**
      * [1] Deep: has params
@@ -43,7 +54,8 @@ export function useActiveLink(itemPath, deep = true) {
 
     const hasParamsActive = pathHasParams && originItemPath === pathname;
 
-    return defaultActive || hasParamsActive;
+    // return defaultActive || hasParamsActive;
+    return pathname.startsWith(itemPath) || isInProjectDetail;
   }
 
   /**

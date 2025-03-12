@@ -3,12 +3,13 @@ import { Box, Card, Typography } from '@mui/material';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { DashboardContent } from 'src/layouts/dashboard';
+import { endpoints } from 'src/routes/endpoints';
 import { paths } from 'src/routes/paths';
 
 const DetailBahanPage = ({ id }) => {
   const { data: [dataDetailBahan] = [], isLoading } = useQuery(
     [`detail-bahan-${id}`],
-    `/api/v1/bahan/${id}`
+    `${endpoints.bahan.root}/${id}`
   );
 
   console.log(dataDetailBahan);

@@ -12,6 +12,7 @@ import { Field, Form } from 'src/components/hook-form';
 import { Alert, Card, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { paths } from 'src/routes/paths';
+import { endpoints } from 'src/routes/endpoints';
 const EditBahanForm = ({ dataDetailBahan }) => {
   const [errorMsg, setErrorMsg] = useState('');
   const router = useRouter();
@@ -29,7 +30,7 @@ const EditBahanForm = ({ dataDetailBahan }) => {
 
   const { mutate: editBahan } = useMutation(
     'PUT',
-    `/api/v1/bahan/${dataDetailBahan && dataDetailBahan.bahan_id}`
+    `${endpoints.bahan.root}/${dataDetailBahan && dataDetailBahan.bahan_id}`
   );
 
   const {

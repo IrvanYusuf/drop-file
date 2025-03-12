@@ -25,10 +25,16 @@ import { signUpWithEmailPassword } from 'src/auth/context/jwt';
 import { queryClient } from 'src/libs/query-client';
 import { CreateNewUserSchemaValidation } from 'src/schema-validations/auth/createNewUserSchemaValidation copy';
 import { useState } from 'react';
+import { endpoints } from 'src/routes/endpoints';
 
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
+
+export const MEMBER_DENTALOKA_OPTIONS = [
+  { label: 'Yes', value: true },
+  { label: 'No', value: false },
+];
 
 export default function UserNewForm() {
   const password = useBoolean();
@@ -47,6 +53,7 @@ export default function UserNewForm() {
     address: '',
     role_id: '',
     description: '',
+    is_member_dentaloka: false,
   };
 
   const methods = useForm({
@@ -55,10 +62,11 @@ export default function UserNewForm() {
     defaultValues,
   });
 
-  const { mutate: createNewUser, isLoading } = useMutation('POST', '/api/v1/users');
+  // '/api/v1/users'
+  const { mutate: createNewUser, isLoading } = useMutation('POST', endpoints.user.root);
 
   // ambil role
-  const { data: dataRoles, isLoading: loadingRoles } = useQuery(['roles'], '/api/v1/roles');
+  const { data: dataRoles, isLoading: loadingRoles } = useQuery(['roles'], endpoints.role.root);
 
   const {
     reset,
@@ -69,37 +77,40 @@ export default function UserNewForm() {
   const onSubmit = handleSubmit(async (data) => {
     setErrorMsg('');
     try {
-      const result = await signUpWithEmailPassword(data.email, data.password);
-      const transformedData = Object.entries(data).reduce((acc, [key, value]) => {
-        // Jika nilai adalah undefined atau null, set menjadi null
-        acc[key] = value === undefined ? null : value;
-        return acc;
-      }, {});
-      const { photo, ...otherData } = transformedData;
+      // const result = await signUpWithEmailPassword(data.email, data.password);
+      // const transformedData = Object.entries(data).reduce((acc, [key, value]) => {
+      //   // Jika nilai adalah undefined atau null, set menjadi null
+      //   acc[key] = value === undefined ? null : value;
+      //   return acc;
+      // }, {});
+      // const { photo, ...otherData } = transformedData;
 
-      // Mengambil hanya nama file dari 'photo' (jika ada)
-      const photoName = photo ? photo.name : null;
+      // // Mengambil hanya nama file dari 'photo' (jika ada)
+      // const photoName = photo ? photo.name : null;
 
-      // Membuat objek data baru dengan nama file saja
-      const newUserData = {
-        ...otherData,
-        user_id: result.uid,
-        photo: photoName,
-      };
-      createNewUser(
-        { ...newUserData },
-        {
-          onSuccess: (response) => {
-            toast.success('Add New User success!');
-            queryClient.invalidateQueries(['users']);
-            reset();
-            router.push(paths.dashboard.user.root);
-          },
-          onError: (response) => {
-            toast.error('Failed Add New User!');
-          },
-        }
-      );
+      // // Membuat objek data baru dengan nama file saja
+      // const newUserData = {
+      //   ...otherData,
+      //   user_id: result.uid,
+      //   photo: photoName,
+      // };
+      console.log(data);
+
+      toast.success('Add New User success!');
+      // createNewUser(
+      //   { ...newUserData },
+      //   {
+      //     onSuccess: (response) => {
+      //       toast.success('Add New User success!');
+      //       queryClient.invalidateQueries(['users']);
+      //       reset();
+      //       router.push(paths.dashboard.user.root);
+      //     },
+      //     onError: (response) => {
+      //       toast.error('Failed Add New User!');
+      //     },
+      //   }
+      // );
     } catch (error) {
       console.error(error);
       toast.error('Email already use');
@@ -119,9 +130,8 @@ export default function UserNewForm() {
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             <Box sx={{ mb: 5 }}>
               <Field.UploadAvatar
-                disabled
                 name="photo"
-                maxSize={3145728}
+                maxSize={10485760}
                 helperText={
                   <Typography
                     variant="caption"
@@ -133,8 +143,6 @@ export default function UserNewForm() {
                       color: 'text.disabled',
                     }}
                   >
-                    For now disabled
-                    <br />
                     Allowed *.jpeg, *.jpg, *.png, *.gif
                     <br /> max size of 10MB
                   </Typography>
@@ -209,6 +217,20 @@ export default function UserNewForm() {
                 </MenuItem>
               ))}
             </Field.Select>
+
+            <Box mt={3}>
+              <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+                Member Dentaloka?
+              </Typography>
+              <Box>
+                <Field.RadioGroup
+                  row
+                  name="is_member_dentaloka"
+                  options={MEMBER_DENTALOKA_OPTIONS}
+                  sx={{ gap: 4 }}
+                />
+              </Box>
+            </Box>
 
             <Field.Text
               name={'description'}

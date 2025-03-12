@@ -114,16 +114,25 @@ export const navData = [
    * Management
    */
   {
-    subheader: 'Management',
+    subheader: 'Main Menu',
     items: [
       {
-        title: 'Group',
-        path: paths.dashboard.group.root,
-        icon: ICONS.user,
+        title: 'Projek',
+        path: paths.dashboard.projek.root,
+        icon: ICONS.file,
         children: [
-          { title: 'Four', path: paths.dashboard.group.root },
-          { title: 'Five', path: paths.dashboard.group.five },
-          { title: 'Six', path: paths.dashboard.group.six },
+          {
+            title: 'List',
+            path: paths.dashboard.projek.root,
+          },
+          {
+            title: 'Dentaloka Member',
+            path: paths.dashboard.projek.root,
+          },
+          {
+            title: 'New',
+            path: paths.dashboard.projek.new,
+          },
         ],
       },
     ],

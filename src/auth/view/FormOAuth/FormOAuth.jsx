@@ -26,11 +26,15 @@ const FormOauth = ({ showOr = true }) => {
   const onClick = async (data) => {
     try {
       const result = await signInOrSignUpWithGoogle();
+      const providers = result.providerData.map((provider) => provider.providerId);
+      console.log(providers);
+
       const newData = {
         user_id: result.uid,
         fullname: result.displayName,
         email: result.email,
         phone: result.phoneNumber,
+        provider_id: providers[0],
       };
       console.log(newData);
       console.log(result);

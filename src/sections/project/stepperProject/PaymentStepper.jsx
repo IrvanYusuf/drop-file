@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Divider,
   IconButton,
   Stack,
@@ -17,11 +18,14 @@ import { useAuthContext } from 'src/auth/hooks';
 import { Iconify } from 'src/components/iconify';
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
+import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
 import { useQuery } from 'src/hooks/fetch-custom/use-query';
+import { endpoints } from 'src/routes/endpoints';
 import { paymentStepperSchemaValidation } from 'src/schema-validations/stepper/projectStepperSchemaValidation';
 import { FormatCurrencyRupiah } from 'src/utils/currency-format';
 const PaymentStepper = ({ handleBack, onValid, formData, files }) => {
   const [copiedState, setCopiedState] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { user } = useAuthContext();
   const methods = useForm({
@@ -29,7 +33,8 @@ const PaymentStepper = ({ handleBack, onValid, formData, files }) => {
     defaultValues: { ...formData, files: [] },
   });
 
-  const { data: dataRekening = [], isLoading } = useQuery(['rekening'], '/api/v1/rekening');
+  const { data: dataRekening = [], isLoading } = useQuery(['rekening'], endpoints.rekening.root);
+  const { mutate: createNewProject } = useMutation('POST', endpoints.project.root);
 
   const {
     handleSubmit,
@@ -40,24 +45,36 @@ const PaymentStepper = ({ handleBack, onValid, formData, files }) => {
   } = methods;
 
   const onSubmit = handleSubmit((data) => {
-    // Mengambil nilai terbaru dari form (data)
-    const formValues = getValues(); // Ambil data form secara langsung
-    console.log(errors);
+    // Mengambil nilai terbaru dari form
+    const formValues = getValues();
+    const formData = new FormData();
 
-    // Jika tidak ada error pada formState.errors
+    formData.append('title', formValues.title);
+    formData.append('description', formValues.description);
+    formData.append('products', JSON.stringify(formValues.products)); // Convert ke string JSON
+    formData.append('patients', JSON.stringify(formValues.patients)); // Convert ke string JSON
+
+    // Append multiple images
+    formValues.files.forEach(({ file }) => formData.append('images', file));
+
+    formData.append('client_id', user.user_id);
+
     if (Object.keys(errors).length === 0) {
-      // Tidak ada error, tampilkan toast sukses
-      toast.success('Form submitted successfully!');
-
-      // Kirimkan data ke parent menggunakan callback onValid (jika ada)
-      console.log(formValues); // Menampilkan data form yang valid
+      setIsSubmitting(true);
+      createNewProject(formData, {
+        onSuccess: (response) => {
+          toast.success('Berhasil buat project!');
+          setIsSubmitting(false);
+        },
+        onError: (response) => {
+          toast.error('Gagal buat project!');
+          setIsSubmitting(false);
+        },
+      });
     } else {
-      // Ada error, jangan kirim data
       toast.error('Please fix the errors in the form.');
     }
   });
-
-  console.log(errors);
 
   const handleSaveProject = () => {
     toast.success('Berhasil simpan projek');
@@ -92,7 +109,6 @@ const PaymentStepper = ({ handleBack, onValid, formData, files }) => {
     }
   }, [files, setValue]);
 
-  console.log(getValues());
   if (isLoading) {
     return <Typography>loading....</Typography>;
   }
@@ -196,7 +212,7 @@ const PaymentStepper = ({ handleBack, onValid, formData, files }) => {
                 type="submit"
                 variant="outlined"
                 sx={{ mr: 1 }}
-                disabled={!user}
+                disabled={!user || isSubmitting}
                 onClick={handleSaveProject}
               >
                 Simpan Projek
@@ -214,9 +230,10 @@ const PaymentStepper = ({ handleBack, onValid, formData, files }) => {
                 type="submit"
                 variant="contained"
                 onClick={onSubmit}
-                disabled={!user} // Button disabled if user does not exist
+                disabled={!user || isSubmitting}
+                startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
               >
-                Tambah Projek
+                {isSubmitting ? 'Loading...' : 'Tambah Projek'}
               </Button>
             </span>
           </Tooltip>

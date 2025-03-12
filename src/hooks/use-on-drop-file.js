@@ -3,12 +3,7 @@ import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 import { useCallback } from 'react';
 
-export const useHandleDropFile = (
-  modelTypes = [],
-  setFiles,
-  files,
-  navigate = false
-) => {
+export const useHandleDropFile = (modelTypes = [], setFiles, files, navigate = false) => {
   const router = useRouter();
   // const onDrop = useCallback(
   //   async (acceptedFiles) => {
@@ -100,7 +95,7 @@ export const useHandleDropFile = (
         }
 
         // Simpan file ke localStorage
-        localStorage.setItem('files', JSON.stringify(addFiles));
+        // localStorage.setItem('files', JSON.stringify(addFiles));
 
         // Redirect ke halaman post project jika diperlukan
         if (navigate) {

@@ -22,19 +22,24 @@ import { RouterLink } from 'src/routes/components';
 import { useMutation } from 'src/hooks/fetch-custom/use-mutation';
 import { queryClient } from 'src/libs/query-client';
 import { toast } from 'src/components/snackbar';
+import { endpoints } from 'src/routes/endpoints';
 // ----------------------------------------------------------------------
 
 export function BahanTableRow({ row, index, selected, onEditRow, onSelectRow }) {
   const confirm = useBoolean();
 
   const popover = usePopover();
-  const { mutate: deleteBahanData } = useMutation('DELETE', `/api/v1/bahan/${row.bahan_id}`, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['bahan']);
-      toast.success('Delete success!');
-      confirm.onFalse();
-    },
-  });
+  const { mutate: deleteBahanData } = useMutation(
+    'DELETE',
+    `${endpoints.bahan.root}/${row.bahan_id}`,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['bahan']);
+        toast.success('Delete success!');
+        confirm.onFalse();
+      },
+    }
+  );
 
   const handleDeleteConfirm = () => deleteBahanData();
 

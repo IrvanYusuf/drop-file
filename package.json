@@ -44,6 +44,7 @@
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.7.4",
     "dayjs": "^1.11.13",
+    "embla-carousel-react": "^8.5.2",
     "firebase": "^11.1.0",
     "framer-motion": "^11.3.29",
     "i18next": "^23.14.0",

@@ -24,6 +24,9 @@ import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { signUpWithEmailPassword } from 'src/auth/context/jwt';
 import { queryClient } from 'src/libs/query-client';
 import { paths } from 'src/routes/paths';
+import { endpoints } from 'src/routes/endpoints';
+import { CONFIG } from 'src/config-global';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -33,11 +36,13 @@ export default function UserEditForm({ currentUser }) {
   const password = useBoolean();
   const router = useRouter();
 
+  console.log('current', currentUser);
+
   const defaultValues = {
-    photo: currentUser?.photo,
-    fullname: currentUser?.fullname,
-    email: currentUser?.email,
-    phone: currentUser?.phone,
+    photo: `${CONFIG.BASE_API_URL}/images/avatar/${currentUser?.photo}`,
+    fullname: currentUser?.fullname || '',
+    email: currentUser?.email || '',
+    phone: currentUser?.phone || '',
     country: currentUser?.country || '',
     state: currentUser?.state || '',
     city: currentUser?.city || '',
@@ -55,11 +60,11 @@ export default function UserEditForm({ currentUser }) {
   // Edit user
   const { mutate: editUser } = useMutation(
     'PUT',
-    `/api/v1/users/${currentUser && currentUser.user_id}`
+    `${endpoints.user.root}/${currentUser && currentUser.user_id}`
   );
 
   // ambil role
-  const { data: dataRoles, isLoading: loadingRoles } = useQuery(['roles'], '/api/v1/roles');
+  const { data: dataRoles, isLoading: loadingRoles } = useQuery(['roles'], endpoints.role.root);
 
   const {
     reset,
@@ -84,29 +89,50 @@ export default function UserEditForm({ currentUser }) {
         ...otherData,
         photo: photoName,
       };
+      const randomAvatar = `${CONFIG.assetsDir}/assets/images/mock/avatar/avatar-${Math.floor(Math.random() * 10) + 1}.webp`;
+      console.log(data);
+      console.log(newUserData);
+      console.log(randomAvatar);
 
-      editUser(
-        { ...newUserData },
-        {
-          onSuccess: (response) => {
-            console.log(newUserData);
-            toast.success('Edit User success!');
-            queryClient.invalidateQueries(['users']);
-            queryClient.invalidateQueries([`edit-user-dashboard-${currentUser.user_id}`]);
-            reset();
-            router.push(paths.dashboard.user.root);
-          },
-          onError: (response) => {
-            toast.error('Failed Add New User!');
-          },
-        }
-      );
+      toast.info('bisa');
+      // editUser(
+      //   { ...newUserData },
+      //   {
+      //     onSuccess: (response) => {
+      //       console.log(newUserData);
+      //       toast.success('Edit User success!');
+      //       queryClient.invalidateQueries(['users']);
+      //       queryClient.invalidateQueries([`edit-user-dashboard-${currentUser.user_id}`]);
+      //       reset();
+      //       router.push(paths.dashboard.user.root);
+      //     },
+      //     onError: (response) => {
+      //       toast.error('Failed Add New User!');
+      //     },
+      //   }
+      // );
     } catch (error) {
       console.error(error);
     }
   });
 
-  console.log(defaultValues);
+  // Di dalam komponen UserEditForm
+  useEffect(() => {
+    if (currentUser) {
+      reset({
+        photo: `${CONFIG.BASE_API_URL}/images/avatar/${currentUser?.photo}`,
+        fullname: currentUser?.fullname || '',
+        email: currentUser?.email || '',
+        phone: currentUser?.phone || '',
+        country: currentUser?.country || '',
+        state: currentUser?.state || '',
+        city: currentUser?.city || '',
+        address: currentUser?.address || '',
+        role_id: currentUser?.role_id || '',
+        description: currentUser?.description || '',
+      });
+    }
+  }, [currentUser, reset]);
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
@@ -115,7 +141,6 @@ export default function UserEditForm({ currentUser }) {
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             <Box sx={{ mb: 5 }}>
               <Field.UploadAvatar
-                disabled
                 name="photo"
                 maxSize={3145728}
                 helperText={
@@ -129,10 +154,8 @@ export default function UserEditForm({ currentUser }) {
                       color: 'text.disabled',
                     }}
                   >
-                    For now disabled
-                    <br />
                     Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of 10MB
+                    <br /> max size of 5MB
                   </Typography>
                 }
               />

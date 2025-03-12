@@ -3,6 +3,7 @@ import { paths } from 'src/routes/paths';
 import { CONFIG } from 'src/config-global';
 
 import { SvgColor } from 'src/components/svg-color';
+import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -39,13 +40,13 @@ const ICONS = {
 
 // ----------------------------------------------------------------------
 
-export const navData = [
+export const navDataMobile = [
   {
     subheader: 'User Menu',
     items: [
-      { title: 'Profile', path: paths.client.profile },
+      { title: 'Profile', path: paths.client.profile.root },
       { title: 'Transactions', path: paths.client.transactions },
-      { title: 'Projects', path: paths.client.projects },
+      { title: 'Projects', path: paths.client.projects.root },
     ],
   },
   {
@@ -53,7 +54,7 @@ export const navData = [
     items: [
       {
         title: 'How it Works',
-        path: paths.dashboard.group.root,
+        path: paths.home,
         // icon: ICONS.user,
         children: [
           { title: 'About us', path: paths.home },
@@ -62,8 +63,48 @@ export const navData = [
         ],
       },
       { title: 'Blog', path: paths.home },
+      { title: 'Browse Projects', path: paths.client.projectsAvailable.root },
       { title: 'Become a designer', path: paths.home },
       { title: 'Contact Us', path: paths.home },
+    ],
+  },
+];
+
+export const navDataDekstop = [
+  /**
+   * Overview
+   */
+  {
+    subheader: null,
+    items: [
+      {
+        title: 'Home',
+        path: paths.home,
+      },
+      {
+        title: 'How it Works',
+        path: paths.dashboard.root,
+        children: [
+          { title: 'For Client', path: paths.dashboard.root },
+          { title: 'For Worker', path: paths.dashboard.root },
+        ],
+      },
+      {
+        title: 'Blog',
+        path: paths.client.projects.root,
+      },
+      {
+        title: 'Browse Projects',
+        path: paths.browseProject.root,
+      },
+      {
+        title: 'Become a Designer',
+        path: paths.client.yourWorks.root,
+      },
+      {
+        title: 'Contact Us',
+        path: paths.client.transactions,
+      },
     ],
   },
 ];

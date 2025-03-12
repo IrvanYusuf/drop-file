@@ -6,11 +6,12 @@ import { useQuery } from 'src/hooks/fetch-custom/use-query';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { paths } from 'src/routes/paths';
 import { AccountGeneral } from './account-general';
+import { endpoints } from 'src/routes/endpoints';
 
 const DetailUserPage = ({ id }) => {
   const { data: [dataDetailUser] = [], isLoading } = useQuery(
     [`detail-user-dashboard-${id}`],
-    `/api/v1/users/${id}`
+    `${endpoints.user.root}/${id}`
   );
 
   return (

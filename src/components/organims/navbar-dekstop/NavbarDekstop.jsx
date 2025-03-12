@@ -1,4 +1,4 @@
-import { Box, Button, Fade, Menu, MenuItem, Stack, useTheme } from '@mui/material';
+import { Box, Button, Fade, Menu, MenuItem, Stack, Typography, useTheme } from '@mui/material';
 import Link from '@mui/material/Link';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -8,6 +8,8 @@ import { Iconify } from 'src/components/iconify';
 import { NotificationsDrawer } from 'src/layouts/components/notifications-drawer';
 import { _accountUser } from 'src/layouts/config-nav-account';
 import { AccountDrawerHomePage } from 'src/layouts/components/account-drawer-homepage/AccountDrawerHomePage';
+import { navDataDekstop } from 'src/layouts/config-nav-main';
+import { NavSectionHorizontal } from 'src/components/nav-section';
 
 const NavbarDekstop = ({ user, isMobile }) => {
   const theme = useTheme();
@@ -25,57 +27,17 @@ const NavbarDekstop = ({ user, isMobile }) => {
   return (
     <>
       {!isMobile && (
-        <Box
-          sx={{
-            display: 'none',
-            [theme.breakpoints.up(layoutQuery)]: {
-              display: 'flex',
-              alignItems: 'center',
-              columnGap: 2,
-            },
-          }}
-        >
+        <>
+          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+            <NavSectionHorizontal data={navDataDekstop} />
+          </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button
-              id="fade-button"
-              aria-controls={open ? 'fade-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-              sx={{ color: theme.palette.text.primary }}
-            >
-              How it Works
-              <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 0.75 }} />
-            </Button>
-            <Menu
-              id="fade-menu"
-              MenuListProps={{
-                'aria-labelledby': 'fade-button',
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Fade}
-            >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-            <Link component={RouterLink} href={paths.home} color={theme.palette.text.primary}>
-              <Button>Blog</Button>
-            </Link>
-            <Link component={RouterLink} href={paths.home} color={theme.palette.text.primary}>
-              <Button>Become a Designer</Button>
-            </Link>
-            <Link component={RouterLink} href={paths.home} color={theme.palette.text.primary}>
-              <Button>Contact Us</Button>
-            </Link>
             {user ? (
               <Box component={'span'}>
                 <Box sx={{ marginRight: 2 }} component={'span'}>
                   <NotificationsDrawer data={_notifications} />
                 </Box>
-                <AccountDrawerHomePage data={_accountUser} />
+                <AccountDrawerHomePage data={_accountUser} currentUser={user} />
               </Box>
             ) : (
               <Box component={'span'}>
@@ -105,7 +67,7 @@ const NavbarDekstop = ({ user, isMobile }) => {
               </Box>
             )}
           </Box>
-        </Box>
+        </>
       )}
     </>
   );

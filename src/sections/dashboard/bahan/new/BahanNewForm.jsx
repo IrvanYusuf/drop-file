@@ -15,6 +15,7 @@ import { createNewBahanSchemaValidation } from 'src/schema-validations/auth/crea
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 import { queryClient } from 'src/libs/query-client';
+import { endpoints } from 'src/routes/endpoints';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +34,7 @@ export default function BahanNewForm() {
     defaultValues,
   });
 
-  const { mutate: createNewBahan, isLoading } = useMutation('POST', '/api/v1/bahan');
+  const { mutate: createNewBahan, isLoading } = useMutation('POST', endpoints.bahan.root);
 
   const {
     reset,

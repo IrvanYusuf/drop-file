@@ -8,7 +8,7 @@ import { Link, Stack, useTheme } from '@mui/material';
 import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { MenuButton } from 'src/layouts/components/menu-button';
-import { navData } from 'src/layouts/config-nav-main';
+import { navDataMobile } from 'src/layouts/config-nav-main';
 import { NavSectionVertical } from 'src/components/nav-section';
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -19,8 +19,8 @@ export default function NavMobile({ isMobile }) {
   const { user } = useAuthContext();
 
   const navDataFilter = user
-    ? navData
-    : navData.filter((section) => section.subheader !== 'User Menu');
+    ? navDataMobile
+    : navDataMobile.filter((section) => section.subheader !== 'User Menu');
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
